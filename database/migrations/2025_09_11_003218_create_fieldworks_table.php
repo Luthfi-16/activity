@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('fieldworks', function (Blueprint $table) {
-            $table->char('id', 25)->primary();
+            $table->id();
             $table->string('description')->nullable();
             $table->text('note')->nullable();
-            $table->char('branch_id', 25);
-            $table->char('category_id', 25);
-            $table->char('status_id', 25);
+            $table->unsignedBigInteger('branch_id');
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('status_id');
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('fieldwork_categories')->onDelete('cascade');
             $table->foreign('status_id')->references('id')->on('fieldwork_statuses')->onDelete('cascade');

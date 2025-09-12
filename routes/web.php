@@ -1,6 +1,9 @@
 <?php
 
-use App\Models\User;
+use App\Http\Controllers\FieldworkStatusController;
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\RegionController;
+use App\Models\Branch;use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -49,3 +52,9 @@ Route::get('/auth/google/callback', function () {
 
     return redirect('/home');
 });
+
+// crud
+Route::resource('region', RegionController::class);
+Route::resource('branch', BranchController::class);
+Route::resource('fieldwork_statuses', FieldworkStatusController::class);
+
