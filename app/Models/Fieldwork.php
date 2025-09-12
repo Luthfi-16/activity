@@ -10,16 +10,16 @@ class Fieldwork extends Model
 
     public function branch()
     {
-        return $this->belongsTo(Branche::class);
+        return $this->belongsTo(Branch::class);
     }
 
     public function category()
     {
-        return $this->belongsTo(Fieldwork_categorie::class, 'category_id');
+        return $this->belongsTo(FieldworkCategory::class, 'category_id');
     }
 
     public function status()
     {
-        return $this->belongsTo(Fieldwork_statuse::class, 'status_id');
+        return $this->belongsTo(FieldworkStatus::class, 'status_id');
     }
 }

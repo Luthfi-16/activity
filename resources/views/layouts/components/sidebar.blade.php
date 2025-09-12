@@ -94,5 +94,12 @@
                     <div data-i18n="Tables">Fieldwork Statuses</div>
                 </a>
         </li>
+
+         <li class="menu-item">
+            <a href="{{ route('fieldwork_category.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-table"></i>
+                    <div data-i18n="Tables">Fieldwork Category</div>
+                </a>
+        </li>
     </ul>
 </aside>

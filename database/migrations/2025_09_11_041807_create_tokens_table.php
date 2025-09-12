@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tokens', function (Blueprint $table) {
-            $table->char('id', 25)->primary();
+            $table->char('id', 11)->primary();
             $table->string('value');
             $table->tinyInteger('is_revoked');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');

@@ -12,11 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('branches', function (Blueprint $table) {
-            $table->id();
+            $table->char('id', 11)->primary();
             $table->string('name');
             $table->string('address');
-            $table->unsignedBigInteger('region_id');
-            
+            $table->char('region_id', 11);
             $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
             $table->timestamps();
         });

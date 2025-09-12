@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('fieldwork_categories', function (Blueprint $table) {
-            $table->id();
+            $table->char('id', 11)->primary();
             $table->string('name');
             $table->string('description');
             $table->timestamps();

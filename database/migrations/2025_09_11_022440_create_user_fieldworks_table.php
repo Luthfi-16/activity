@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('user_fieldworks', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('fieldwork_id', 25);
+            $table->char('fieldwork_id', 11);
             $table->foreign('fieldwork_id')->references('id')->on('fieldworks')->onDelete('cascade');
             $table->timestamps();
         });

@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\FieldworkStatusController;
+
+use App\Http\Controllers\FieldworkCategoryController;
+
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\RegionController;
 use App\Models\Branch;use App\Models\User;
@@ -35,8 +38,8 @@ Route::get('/auth/google/callback', function () {
 
     auth()->login($user);
 
-    // ✅ Generate ID max 25 char (sesuai migration)
-    $id         = Str::random(25);
+    // ✅ Generate ID max 11 char (sesuai migration)
+    $id         = Str::random(11);
     $tokenValue = Str::random(32);
 
     DB::table('tokens')->insert([
@@ -57,4 +60,6 @@ Route::get('/auth/google/callback', function () {
 Route::resource('region', RegionController::class);
 Route::resource('branch', BranchController::class);
 Route::resource('fieldwork_statuses', FieldworkStatusController::class);
+
+Route::resource('fieldwork_category', FieldworkCategoryController::class);
 

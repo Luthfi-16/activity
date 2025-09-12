@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('fieldworks', function (Blueprint $table) {
-            $table->id();
+            $table->char('id', 11)->primary();
             $table->string('description')->nullable();
             $table->text('note')->nullable();
-            $table->unsignedBigInteger('branch_id');
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('status_id');
+            $table->char('branch_id', 11);
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('fieldwork_categories')->onDelete('cascade');
+            $table->char('status_id', 11);
             $table->foreign('status_id')->references('id')->on('fieldwork_statuses')->onDelete('cascade');
+            $table->char('category_id', 11);
+            $table->foreign('category_id')->references('id')->on('fieldwork_categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

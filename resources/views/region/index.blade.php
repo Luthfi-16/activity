@@ -12,7 +12,7 @@
       <table class="table">
         <thead class="table-light">
           <tr>
-            <th>ID</th>
+            <th>Number</th>
             <th>Name</th>
             <th>Code</th>
             <th>Created At</th>
@@ -21,8 +21,11 @@
         </thead>
         <tbody class="table-border-bottom-0">
           @foreach($regions as $region)
+          @php
+            $no = 1;
+          @endphp
           <tr>
-            <td>{{ $region->id }}</td>
+            <td>{{ $no++ }}</td>
             <td>{{ $region->name }}</td>
             <td>{{ $region->code }}</td>
             <td>{{ $region->created_at->format('Y-m-d') }}</td>
