@@ -12,7 +12,7 @@
       <table class="table">
         <thead class="table-light">
           <tr>
-            <th>ID</th>
+            <th>No</th>
             <th>Name</th>
             <th>Description</th>
             <th>Created At</th>
@@ -20,9 +20,13 @@
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
+           @php
+            $no = 1;
+          @endphp
           @foreach($category as $kategori)
+          
           <tr>
-            <td>{{ $kategori->id }}</td>
+            <td>{{ $no++ }}</td>
             <td>{{ $kategori->name }}</td>
             <td>{{ $kategori->description ?? '-' }}</td>
             <td>{{ $kategori->created_at->format('Y-m-d') }}</td>
@@ -32,7 +36,7 @@
               <form action="{{ route('fieldwork_category.destroy', $kategori->id) }}" method="POST" class="d-inline">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-danger"
+              <button type="submit" class="btn btn-sm btn-danger"
                   onclick="return confirm('Yakin mau hapus?')">Delete</button>
               </form>
             </td>

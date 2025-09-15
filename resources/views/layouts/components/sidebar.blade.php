@@ -56,50 +56,45 @@
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
-        <!-- Dashboard -->
-        <li class="menu-item active">
-            <a href="index.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Dashboard</div>
-            </a>
-        </li>
+    <!-- Dashboard -->
+    <li class="menu-item {{ Request::is('   home') ? 'active' : '' }}">
+        <a href="{{ url('/home') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Analytics">Dashboard</div>
+        </a>
+    </li>
 
-        <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Pages</span>
-        </li>
-        <li class="menu-item">
-            <a href="tables-basic.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Tables</div>
-            </a>
-        </li>
+    <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Pages</span>
+    </li>
 
-        <li class="menu-item">
-            <a href="{{ route('region.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-table"></i>
-                    <div data-i18n="Tables">Regions</div>
-                </a>
-        </li>
+    <li class="menu-item {{ Request::routeIs('region.*') ? 'active' : '' }}">
+        <a href="{{ route('region.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-table"></i>
+            <div data-i18n="Tables">Regions</div>
+        </a>
+    </li>
 
-          <li class="menu-item">
-            <a href="{{ route('branch.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-table"></i>
-                    <div data-i18n="Tables">Branches</div>
-                </a>
-        </li>
+    <li class="menu-item {{ Request::routeIs('branch.*') ? 'active' : '' }}">
+        <a href="{{ route('branch.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-table"></i>
+            <div data-i18n="Tables">Branches</div>
+        </a>
+    </li>
 
-         <li class="menu-item">
-            <a href="{{ route('fieldwork_statuses.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-table"></i>
-                    <div data-i18n="Tables">Fieldwork Statuses</div>
-                </a>
-        </li>
+    <li class="menu-item {{ Request::routeIs('fieldwork_statuses.*') ? 'active' : '' }}">
+        <a href="{{ route('fieldwork_statuses.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-table"></i>
+            <div data-i18n="Tables">Fieldwork Statuses</div>
+        </a>
+    </li>
 
-         <li class="menu-item">
-            <a href="{{ route('fieldwork_category.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-table"></i>
-                    <div data-i18n="Tables">Fieldwork Category</div>
-                </a>
-        </li>
-    </ul>
+    <li class="menu-item {{ Request::routeIs('fieldwork_category.*') ? 'active' : '' }}">
+        <a href="{{ route('fieldwork_category.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-table"></i>
+            <div data-i18n="Tables">Fieldwork Category</div>
+        </a>
+    </li>
+</ul>
+
 </aside>

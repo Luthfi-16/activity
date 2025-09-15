@@ -20,10 +20,11 @@
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-          @foreach($regions as $region)
-          @php
+             @php
             $no = 1;
           @endphp
+          @foreach($regions as $region)
+       
           <tr>
             <td>{{ $no++ }}</td>
             <td>{{ $region->name }}</td>

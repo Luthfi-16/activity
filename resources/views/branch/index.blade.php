@@ -12,7 +12,7 @@
       <table class="table">
         <thead class="table-light">
           <tr>
-            <th>ID</th>
+            <th>No</th>
             <th>Name</th>
             <th>Address</th>
             <th>Region</th>
@@ -21,9 +21,13 @@
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
+           @php
+            $no = 1;
+          @endphp
           @foreach($branches as $branch)
+         
           <tr>
-            <td>{{ $branch->id }}</td>
+            <td>{{ $no++ }}</td>
             <td>{{ $branch->name }}</td>
             <td>{{ $branch->address }}</td>
             <td>{{ $branch->region->name ?? '-' }}</td>

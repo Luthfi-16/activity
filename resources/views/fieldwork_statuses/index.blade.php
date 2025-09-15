@@ -12,7 +12,7 @@
       <table class="table">
         <thead class="table-light">
           <tr>
-            <th>ID</th>
+            <th>No</th>
             <th>Name</th>
             <th>Description</th>
             <th>Created At</th>
@@ -20,9 +20,13 @@
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
+            @php
+            $no = 1;
+          @endphp
           @foreach($statuses as $status)
+         
           <tr>
-            <td>{{ $status->id }}</td>
+            <td>{{ $no++}}</td>
             <td>{{ $status->name }}</td>
             <td>{{ $status->description ?? '-' }}</td>
             <td>{{ $status->created_at->format('Y-m-d') }}</td>
