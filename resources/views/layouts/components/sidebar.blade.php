@@ -102,6 +102,13 @@
             <div data-i18n="Tables">Fieldwork Category</div>
         </a>
     </li>
+
+      <li class="menu-item {{ Request::routeIs('userphone.*') ? 'active' : '' }}">
+        <a href="{{ route('userphone.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-table"></i>
+            <div data-i18n="Tables">User Phone</div>
+        </a>
+    </li>
 </ul>
 
 </aside>

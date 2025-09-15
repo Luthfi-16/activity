@@ -6,6 +6,7 @@ use App\Http\Controllers\FieldworkController;
 
 use App\Http\Controllers\FieldworkCategoryController;
 
+use App\Http\Controllers\UserPhoneController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\RegionController;
 use App\Models\Branch;use App\Models\User;
@@ -64,3 +65,4 @@ Route::resource('branch', BranchController::class);
 Route::resource('fieldwork_statuses', FieldworkStatusController::class);
 Route::resource('fieldwork_category', FieldworkCategoryController::class);
 Route::resource('fieldwork', FieldworkController::class);
+Route::resource('userphone', UserPhoneController::class);
