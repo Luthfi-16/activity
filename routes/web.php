@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\UserProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -66,3 +67,4 @@ Route::resource('fieldwork_statuses', FieldworkStatusController::class);
 Route::resource('fieldwork_category', FieldworkCategoryController::class);
 Route::resource('fieldwork', FieldworkController::class);
 Route::resource('userphone', UserPhoneController::class);
+Route::resource('userprofile', UserProfileController::class);
