@@ -70,15 +70,22 @@
 
     <li class="menu-item {{ Request::routeIs('region.*') ? 'active' : '' }}">
         <a href="{{ route('region.index') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-table"></i>
+            <i class="menu-icon tf-icons bx bx-globe"></i>
             <div data-i18n="Tables">Regions</div>
         </a>
     </li>
-
+    
     <li class="menu-item {{ Request::routeIs('branch.*') ? 'active' : '' }}">
         <a href="{{ route('branch.index') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-table"></i>
             <div data-i18n="Tables">Branches</div>
+        </a>
+    </li>
+
+    <li class="menu-item {{ Request::routeIs('fieldwork.*') ? 'active' : '' }}">
+        <a href="{{ route('fieldwork.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-table"></i>
+            <div data-i18n="Tables">Fieldwork</div>
         </a>
     </li>
 

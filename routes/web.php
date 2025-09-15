@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\FieldworkStatusController;
 
+use App\Http\Controllers\FieldworkController;
+
 use App\Http\Controllers\FieldworkCategoryController;
 
 use App\Http\Controllers\BranchController;
@@ -60,6 +62,5 @@ Route::get('/auth/google/callback', function () {
 Route::resource('region', RegionController::class);
 Route::resource('branch', BranchController::class);
 Route::resource('fieldwork_statuses', FieldworkStatusController::class);
-
 Route::resource('fieldwork_category', FieldworkCategoryController::class);
-
+Route::resource('fieldwork', FieldworkController::class);
