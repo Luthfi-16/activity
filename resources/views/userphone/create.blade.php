@@ -24,7 +24,7 @@
             @endforeach
           </select>
         </div>
-        <button type="submit" class="btn btn-primary">Save</butt      on>
+        <button type="submit" class="btn btn-primary">Save</button>
         <a href="{{ route('userphone.index') }}" class="btn btn-secondary">Cancel</a>
       </form>
     </div>

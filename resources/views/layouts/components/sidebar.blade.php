@@ -45,7 +45,7 @@
                     </g>
                 </svg>
             </span>
-            <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
+            <span class="app-brand-text demo menu-text fw-bolder ms-2">E-Activity</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -68,6 +68,20 @@
         <span class="menu-header-text">Pages</span>
     </li>
 
+    <li class="menu-item {{ Request::routeIs('userphone.*') ? 'active' : '' }}">
+        <a href="{{ route('userphone.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bi bi-telephone-fill"></i>
+            <div data-i18n="Tables">User Phone</div>
+        </a>
+    </li>
+
+        <li class="menu-item {{ Request::routeIs('userprofile.*') ? 'active' : '' }}">
+        <a href="{{ route('userprofile.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bi bi-person-circle"></i>
+            <div data-i18n="Tables">User Profile</div>
+        </a>
+    </li>
+
     <li class="menu-item {{ Request::routeIs('region.*') ? 'active' : '' }}">
         <a href="{{ route('region.index') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-globe"></i>
@@ -77,38 +91,32 @@
     
     <li class="menu-item {{ Request::routeIs('branch.*') ? 'active' : '' }}">
         <a href="{{ route('branch.index') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-table"></i>
+            <i class="menu-icon tf-iconsbi bi-geo-alt-fill"></i>
             <div data-i18n="Tables">Branches</div>
-        </a>
-    </li>
-
-    <li class="menu-item {{ Request::routeIs('fieldwork.*') ? 'active' : '' }}">
-        <a href="{{ route('fieldwork.index') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-table"></i>
-            <div data-i18n="Tables">Fieldwork</div>
         </a>
     </li>
 
     <li class="menu-item {{ Request::routeIs('fieldwork_statuses.*') ? 'active' : '' }}">
         <a href="{{ route('fieldwork_statuses.index') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-table"></i>
+            <i class="menu-icon tf-icons bi bi-check2-all"></i>
             <div data-i18n="Tables">Fieldwork Statuses</div>
         </a>
     </li>
 
     <li class="menu-item {{ Request::routeIs('fieldwork_category.*') ? 'active' : '' }}">
         <a href="{{ route('fieldwork_category.index') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-table"></i>
+            <i class="menu-icon tf-icons bi bi-tags-fill"></i>
             <div data-i18n="Tables">Fieldwork Category</div>
         </a>
     </li>
 
-      <li class="menu-item {{ Request::routeIs('userphone.*') ? 'active' : '' }}">
-        <a href="{{ route('userphone.index') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-table"></i>
-            <div data-i18n="Tables">User Phone</div>
+    <li class="menu-item {{ Request::routeIs('fieldwork.*') ? 'active' : '' }}">
+        <a href="{{ route('fieldwork.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bi-clipboard-check-fill"></i>
+            <div data-i18n="Tables">Fieldwork</div>
         </a>
     </li>
+
 </ul>
 
 </aside>
