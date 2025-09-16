@@ -23,7 +23,7 @@
            @php
             $no = 1;
           @endphp
-          @foreach($category as $kategori)
+          @foreach($categories as $kategori)
           
           <tr>
             <td>{{ $no++ }}</td>

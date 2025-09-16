@@ -8,8 +8,8 @@ class FieldworkCategoryController extends Controller
 {
     public function index()
     {
-        $category = FieldworkCategory::all();
-        return view('fieldwork_category.index', compact('category'));
+        $categories = FieldworkCategory::latest()->get();
+        return view('fieldwork_category.index', compact('categories'));
     }
 
     public function create()
@@ -20,40 +20,52 @@ class FieldworkCategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'        => 'required',
-            'description' => 'nullable',
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
-        FieldworkCategory::create($request->all());
+        $category              = new FieldworkCategory();
+        $category->name        = $request->name;
+        $category->description = $request->description;
+        $category->save();
+
         return redirect()->route('fieldwork_category.index')
             ->with('success', 'Category berhasil ditambahkan!');
     }
 
-    public function show(FieldworkCategory $category)
+    public function show(string $id)
     {
+        $category = FieldworkCategory::findOrFail($id);
         return view('fieldwork_category.show', compact('category'));
     }
 
-    public function edit(FieldworkCategory $category)
+    public function edit(string $id)
     {
+        $category = FieldworkCategory::findOrFail($id);
         return view('fieldwork_category.edit', compact('category'));
     }
 
-    public function update(Request $request, FieldworkCategory $category)
+    public function update(Request $request, string $id)
     {
         $request->validate([
-            'name'        => 'required',
-            'description' => 'nullable',
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
-        $category->update($request->all());
+        $category              = FieldworkCategory::findOrFail($id);
+        $category->name        = $request->name;
+        $category->description = $request->description;
+        $category->save();
+
         return redirect()->route('fieldwork_category.index')
             ->with('success', 'Category berhasil diperbarui!');
     }
 
-    public function destroy(FieldworkCategory $fieldwork_category)
+    public function destroy(string $id)
     {
-        $fieldwork_category->delete();
+        $category = FieldworkCategory::findOrFail($id);
+        $category->delete();
+
         return redirect()->route('fieldwork_category.index')
             ->with('success', 'Category berhasil dihapus!');
     }

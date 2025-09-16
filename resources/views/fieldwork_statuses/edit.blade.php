@@ -13,7 +13,12 @@
         @method('PUT')
         <div class="mb-3">
           <label class="form-label">Name</label>
-          <input type="text" name="name" class="form-control" value="{{ $fieldwork_status->name }}" required>
+          <input type="text" name="name" class="form-control  @error('name') is-invalid @enderror" value="{{ $fieldwork_status->name }}" >
+          @error('name')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
         </div>
         <div class="mb-3">
           <label class="form-label">Description</label>

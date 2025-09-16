@@ -12,11 +12,23 @@
         @csrf
         <div class="mb-3">
           <label class="form-label">Name</label>
-          <input type="text" name="name" class="form-control" required>
+          <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Name Category">
+           @error('name')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
         </div>
         <div class="mb-3">
           <label class="form-label">Description</label>
-          <textarea name="description" class="form-control"></textarea>
+            <textarea name="description" class="form-control @error('description') is-invalid @enderror" placeholder="Description"> 
+              
+            </textarea>
+              @error('description')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
         <a href="{{ route('fieldwork_category.index') }}" class="btn btn-secondary">Cancel</a>
