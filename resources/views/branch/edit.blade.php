@@ -10,21 +10,36 @@
         @method('PUT')
         <div class="mb-3">
           <label class="form-label">Name</label>
-          <input type="text" name="name" class="form-control" value="{{ $branch->name }}" required>
+          <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ $branch->name }}">
+          @error('name')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
         </div>
         <div class="mb-3">
           <label class="form-label">Address</label>
-          <input type="text" name="address" class="form-control" value="{{ $branch->address }}" required>
+          <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" value="{{ $branch->address }}">
+          @error('address')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
         </div>
         <div class="mb-3">
           <label class="form-label">Region</label>
-          <select name="region_id" class="form-control" required>
+          <select name="region_id" class="form-control @error('region_id') is-invalid @enderror">
             @foreach($regions as $region)
               <option value="{{ $region->id }}" {{ $region->id == $branch->region_id ? 'selected' : '' }}>
                 {{ $region->name }}
               </option>
             @endforeach
           </select>
+          @error('region_id')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
         <a href="{{ route('branch.index') }}" class="btn btn-secondary">Cancel</a>

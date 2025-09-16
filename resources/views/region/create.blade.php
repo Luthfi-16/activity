@@ -9,11 +9,11 @@
         @csrf
         <div class="mb-3">
           <label class="form-label">Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Region Name" required>
+          <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Region Name">
         </div>
         <div class="mb-3">
           <label class="form-label">Code</label>
-          <input type="text" name="code" class="form-control" placeholder="Region Code" required>
+          <input type="text" name="code" class="form-control @error('code') is-invalid @enderror" placeholder="Region Code">
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
         <a href="{{ route('region.index') }}" class="btn btn-secondary">Cancel</a>

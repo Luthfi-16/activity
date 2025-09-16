@@ -23,17 +23,17 @@
              @php
             $no = 1;
           @endphp
-          @foreach($regions as $region)
+          @foreach($region as $data)
        
           <tr>
             <td>{{ $no++ }}</td>
-            <td>{{ $region->name }}</td>
-            <td>{{ $region->code }}</td>
-            <td>{{ $region->created_at->format('Y-m-d') }}</td>
+            <td>{{ $data->name }}</td>
+            <td>{{ $data->code }}</td>
+            <td>{{ $data->created_at->format('Y-m-d') }}</td>
             <td>
-              <a href="{{ route('region.show', $region->id) }}" class="btn btn-sm btn-info">Show</a>
-              <a href="{{ route('region.edit', $region->id) }}" class="btn btn-sm btn-warning">Edit</a>
-              <form action="{{ route('region.destroy', $region->id) }}" method="POST" class="d-inline">
+              <a href="{{ route('region.show', $data->id) }}" class="btn btn-sm btn-info">Show</a>
+              <a href="{{ route('region.edit', $data->id) }}" class="btn btn-sm btn-warning">Edit</a>
+              <form action="{{ route('region.destroy', $data->id) }}" method="POST" class="d-inline">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-sm btn-danger"

@@ -10,11 +10,11 @@
         @method('PUT')
         <div class="mb-3">
           <label class="form-label">Name</label>
-          <input type="text" name="name" class="form-control" value="{{ $region->name }}" required>
+          <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ $region->name }}" >
         </div>
         <div class="mb-3">
           <label class="form-label">Code</label>
-          <input type="text" name="code" class="form-control" value="{{ $region->code }}" required>
+          <input type="text" name="code" class="form-control @error('code') is-invalid @enderror" value="{{ $region->code }}" >
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
         <a href="{{ route('region.index') }}" class="btn btn-secondary">Cancel</a>

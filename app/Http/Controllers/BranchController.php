@@ -9,7 +9,7 @@ class BranchController extends Controller
 {
     public function index()
     {
-        $branches = Branch::with('region')->get();
+        $branches = Branch::with('region')->latest()->get();
         return view('branch.index', compact('branches'));
     }
 
@@ -27,24 +27,31 @@ class BranchController extends Controller
             'region_id' => 'required|exists:regions,id',
         ]);
 
-        Branch::create($request->all());
+        $branch            = new Branch();
+        $branch->name      = $request->name;
+        $branch->address   = $request->address;
+        $branch->region_id = $request->region_id;
+        $branch->save();
 
-        return redirect()->route('branch.index')
-            ->with('success', 'Branch berhasil ditambahkan.');
+        return view('branch.index', [
+            'branches' => Branch::with('region')->latest()->get(),
+        ]);
     }
 
-    public function show(Branch $branch)
+    public function show(string $id)
     {
+        $branch = Branch::with('region')->findOrFail($id);
         return view('branch.show', compact('branch'));
     }
 
-    public function edit(Branch $branch)
+    public function edit(string $id)
     {
+        $branch  = Branch::findOrFail($id);
         $regions = Region::all();
         return view('branch.edit', compact('branch', 'regions'));
     }
 
-    public function update(Request $request, Branch $branch)
+    public function update(Request $request, string $id)
     {
         $request->validate([
             'name'      => 'required|string|max:255',
@@ -52,16 +59,24 @@ class BranchController extends Controller
             'region_id' => 'required|exists:regions,id',
         ]);
 
-        $branch->update($request->all());
+        $branch            = Branch::findOrFail($id);
+        $branch->name      = $request->name;
+        $branch->address   = $request->address;
+        $branch->region_id = $request->region_id;
+        $branch->save();
 
-        return redirect()->route('branch.index')
-            ->with('success', 'Branch berhasil diperbarui.');
+        return view('branch.index', [
+            'branches' => Branch::with('region')->latest()->get(),
+        ]);
     }
 
-    public function destroy(Branch $branch)
+    public function destroy(string $id)
     {
+        $branch = Branch::findOrFail($id);
         $branch->delete();
-        return redirect()->route('branch.index')
-            ->with('success', 'Branch berhasil dihapus.');
+
+        return view('branch.index', [
+            'branches' => Branch::with('region')->latest()->get(),
+        ]);
     }
 }

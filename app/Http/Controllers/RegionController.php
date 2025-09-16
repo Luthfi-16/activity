@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Region;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class RegionController extends Controller
 {
@@ -11,8 +13,8 @@ class RegionController extends Controller
      */
     public function index()
     {
-        $regions = Region::all();
-        return view('region.index', compact('regions'));
+        $region = Region::latest()->get();
+        return view('region.index', compact('region'));
     }
 
     /**
@@ -30,52 +32,61 @@ class RegionController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'required|string|max:255',
+            'code' => 'required|string|max:50|unique:regions,code',
         ]);
 
-        Region::create($request->all());
+        $region       = new Region();
+        $region->name = $request->name;
+        $region->code = $request->code;
+        $region->save();
 
-        return redirect()->route('region.index')
-            ->with('success', 'Region berhasil ditambahkan.');
+        return view('region.index');
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Display the specified resource.
      */
-    public function edit(Region $region)
+    public function show(string $id)
     {
-        return view('region.edit', compact('region'));
-    }
-
-    public function show($id) {
         $region = Region::findOrFail($id);
         return view('region.show', compact('region'));
     }
 
     /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $region = Region::findOrFail($id);
+        return view('region.edit', compact('region'));
+    }
+
+    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Region $region)
+    public function update(Request $request, string $id)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'required|string|max:255',
+            'code' => 'required|string|max:50|unique:regions,code,' . $id,
         ]);
 
-        $region->update($request->all());
+        $region       = Region::findOrFail($id);
+        $region->name = $request->name;
+        $region->code = $request->code;
+        $region->save();
 
-        return redirect()->route('region.index')
-            ->with('success', 'Region berhasil diperbarui.');
+        return view('region.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Region $region)
+    public function destroy(string $id)
     {
+        $region = Region::findOrFail($id);
         $region->delete();
 
-        return redirect()->route('region.index')
-            ->with('success', 'Region berhasil dihapus.');
+        return view('region.index');
     }
 }
