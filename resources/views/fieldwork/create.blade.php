@@ -13,17 +13,32 @@
 
         <div class="mb-3">
           <label class="form-label">Description</label>
-          <input type="text" name="description" class="form-control" value="{{ old('description') }}" required>
+          <input type="text" name="description" class="form-control @error('description') is-invalid @enderror" value="{{ old('description') }}" >
+          @error('description')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
         </div>
 
         <div class="mb-3">
           <label class="form-label">Note</label>
-          <textarea name="note" class="form-control">{{ old('note') }}</textarea>
+          <textarea name="note" class="form-control form-control @error('note') is-invalid @enderror">{{ old('note') }}</textarea>
+          @error('note')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
         </div>
 
         <div class="mb-3">
           <label class="form-label">Branch</label>
-          <select name="branch_id" class="form-select" required>
+          <select name="branch_id" class="form-select form-control @error('branch_id') is-invalid @enderror">
+          @error('branch_id')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
             <option value="">-- Pilih Branch --</option>
             @foreach($branches as $branch)
               <option value="{{ $branch->id }}" {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
@@ -35,7 +50,12 @@
 
         <div class="mb-3">
           <label class="form-label">Category</label>
-          <select name="category_id" class="form-select" required>
+          <select name="category_id" class="form-select @error('category_id') is-invalid @enderror">
+          @error('category_id')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
             <option value="">-- Pilih Category --</option>
             @foreach($categories as $category)
               <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
@@ -47,7 +67,12 @@
 
         <div class="mb-3">
           <label class="form-label">Status</label>
-          <select name="status_id" class="form-select" required>
+          <select name="status_id" class="form-select @error('status_id') is-invalid @enderror">
+          @error('status_id')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
             <option value="">-- Pilih Status --</option>
             @foreach($statuses as $status)
               <option value="{{ $status->id }}" {{ old('status_id') == $status->id ? 'selected' : '' }}>
