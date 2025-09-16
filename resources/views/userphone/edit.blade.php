@@ -10,21 +10,36 @@
         @method('PUT')
         <div class="mb-3">
           <label class="form-label">Number</label>
-          <input type="number" name="number" class="form-control" value="{{ $userphone->number }}" required>
+          <input type="number" name="number" class="form-control @error('number') is-invalid @enderror" value="{{ $userphone->number }}">
+           @error('number')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
         </div>
         <div class="mb-3">
           <label class="form-label">Name</label>
-          <input type="text" name="name" class="form-control" value="{{ $userphone->name }}" required>
+          <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ $userphone->name }}">
+           @error('name')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
         </div>
          <div class="mb-3">
           <label class="form-label">Select User</label>
-          <select name="user_id" class="form-control" required>
+          <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
             @foreach($user as $data)
               <option value="{{ $data->id }}" {{ $data->id == $userphone->user_id ? 'selected' : '' }}>
                 {{ $data->name }}
               </option>
             @endforeach
           </select>
+           @error('user_id')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
         <a href="{{ route('userphone.index') }}" class="btn btn-secondary">Cancel</a>
