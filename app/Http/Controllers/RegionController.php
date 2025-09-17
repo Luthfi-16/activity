@@ -38,9 +38,10 @@ class RegionController extends Controller
         $region       = new Region();
         $region->name = $request->name;
         $region->code = $request->code;
-        $region->save();
 
-        return view('region.index');
+        $region->save();
+        session()->flash('success', 'Data berhasil diedit');
+        return redirect()->route('region.index');
     }
 
     /**
@@ -74,9 +75,10 @@ class RegionController extends Controller
         $region       = Region::findOrFail($id);
         $region->name = $request->name;
         $region->code = $request->code;
-        $region->save();
 
-        return view('region.index');
+        $region->save();
+        session()->flash('success', 'Data berhasil diedit');
+        return redirect()->route('region.index');
     }
 
     /**
@@ -86,7 +88,6 @@ class RegionController extends Controller
     {
         $region = Region::findOrFail($id);
         $region->delete();
-
-        return view('region.index');
+        return redirect()->route('region.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

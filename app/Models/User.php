@@ -45,4 +45,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function fieldworks()
+    {  
+    return $this->belongsToMany(Fieldwork::class, 'user_fieldworks', 'user_id', 'fieldwork_id');
+    }
+
 }

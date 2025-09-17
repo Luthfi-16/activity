@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('styles')
+<link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.css">
+@endsection
 @section('content')
 <div class="container">
   <h4 class="fw-bold py-3 mb-4">Fieldwork / <span class="text-muted">List</span></h4>
@@ -9,14 +12,14 @@
       <a href="{{ route('fieldwork.create') }}" class="btn btn-primary">+ Add Fieldwork</a>
     </div>
     <div class="table-responsive text-nowrap">
-      <table class="table">
+      <table id="dataFieldwork" class="table">
         <thead class="table-light">
           <tr>
             <th>No</th>
-            <th>Description</th>
-            <th>Note</th>
             <th>Branch</th>
             <th>Category</th>
+            <th>Description</th>
+            <th>Note</th>
             <th>Status</th>
             <th>Created At</th>
             <th>Actions</th>
@@ -27,10 +30,10 @@
           @foreach($fieldwork as $fieldwork)
           <tr>
             <td>{{ $no++ }}</td>
-            <td>{{ $fieldwork->description }}</td>
-            <td>{{ $fieldwork->note ?? '-' }}</td>
             <td>{{ $fieldwork->branch?->name ?? '-' }}</td>
             <td>{{ $fieldwork->category?->name ?? '-' }}</td>
+            <td>{{ Str::limit($fieldwork->description, 20)}}</td>
+            <td>{{ $fieldwork->note ?? '-' }}</td>
             <td>{{ $fieldwork->status?->name ?? '-' }}</td>
             <td>{{ $fieldwork->created_at->format('Y-m-d') }}</td>
             <td>
@@ -51,3 +54,10 @@
   </div>
 </div>    
 @endsection
+@push('scripts')
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.js"></script>
+    <script>
+    new DataTable('#dataFieldwork');
+    </script>
+@endpush

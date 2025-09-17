@@ -1,4 +1,7 @@
-@extends('layouts.app') 
+@extends('layouts.app')
+@section('styles')
+<link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.css">
+@endsection
 @section('content')
 <div class="container">
   <h4 class="fw-bold py-3 mb-4">Regions / <span class="text-muted">List</span></h4>
@@ -9,11 +12,11 @@
       <a href="{{ route('region.create') }}" class="btn btn-primary">+ Add Region</a>
     </div>
     <div class="table-responsive text-nowrap">
-      <table class="table">
+      <table id="dataRegion" class="table">
         <thead class="table-light">
           <tr>
             <th>Number</th>
-            <th>Name</th>
+            <th>Region</th>
             <th>Code</th>
             <th>Created At</th>
             <th>Actions</th>
@@ -48,3 +51,10 @@
   </div>
 </div>
 @endsection
+@push('scripts')
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.js"></script>
+    <script>
+    new DataTable('#dataRegion');
+    </script>
+@endpush

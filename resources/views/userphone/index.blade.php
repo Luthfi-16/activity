@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('styles')
+<link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.css">
+@endsection
 @section('content')
 <div class="container">
   <h4 class="fw-bold py-3 mb-4">User Phones / <span class="text-muted">List</span></h4>
@@ -9,7 +12,7 @@
       <a href="{{ route('userphone.create') }}" class="btn btn-primary">+ Add User Phone</a>
     </div>
     <div class="table-responsive text-nowrap">
-      <table class="table">
+      <table id="dataPhone" class="table">
         <thead class="table-light">
           <tr>
             <th>Number</th>
@@ -46,3 +49,10 @@
   </div>
 </div>
 @endsection
+@push('scripts')
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.js"></script>
+    <script>
+    new DataTable('#dataPhone');
+    </script>
+@endpush

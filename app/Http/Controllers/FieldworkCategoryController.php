@@ -27,10 +27,10 @@ class FieldworkCategoryController extends Controller
         $category              = new FieldworkCategory();
         $category->name        = $request->name;
         $category->description = $request->description;
-        $category->save();
 
-        return redirect()->route('fieldwork_category.index')
-            ->with('success', 'Category berhasil ditambahkan!');
+        $category->save();
+        session()->flash('success', 'Data berhasil diedit');
+        return redirect()->route('fieldwork_category.index');
     }
 
     public function show(string $id)
@@ -55,10 +55,10 @@ class FieldworkCategoryController extends Controller
         $category              = FieldworkCategory::findOrFail($id);
         $category->name        = $request->name;
         $category->description = $request->description;
-        $category->save();
 
-        return redirect()->route('fieldwork_category.index')
-            ->with('success', 'Category berhasil diperbarui!');
+        $category->save();
+        session()->flash('success', 'Data berhasil diedit');
+        return redirect()->route('fieldwork_category.index');
     }
 
     public function destroy(string $id)
@@ -66,7 +66,6 @@ class FieldworkCategoryController extends Controller
         $category = FieldworkCategory::findOrFail($id);
         $category->delete();
 
-        return redirect()->route('fieldwork_category.index')
-            ->with('success', 'Category berhasil dihapus!');
+        return redirect()->route('fieldwork_category.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

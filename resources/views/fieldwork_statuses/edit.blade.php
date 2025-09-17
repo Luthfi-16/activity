@@ -8,12 +8,12 @@
       <h5 class="mb-0">Edit Fieldwork Status</h5>
     </div>
     <div class="card-body">
-      <form action="{{ route('fieldwork_statuses.update', $fieldwork_status->id) }}" method="POST">
+      <form action="{{ route('fieldwork_statuses.update', $status->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="mb-3">
           <label class="form-label">Name</label>
-          <input type="text" name="name" class="form-control  @error('name') is-invalid @enderror" value="{{ $fieldwork_status->name }}" >
+          <input type="text" name="name" class="form-control  @error('name') is-invalid @enderror" value="{{ $status->name }}" >
           @error('name')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -22,7 +22,7 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Description</label>
-          <textarea name="description" class="form-control">{{ $fieldwork_status->description }}</textarea>
+          <textarea name="description" class="form-control">{{ $status->description }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
         <a href="{{ route('fieldwork_statuses.index') }}" class="btn btn-secondary">Cancel</a>

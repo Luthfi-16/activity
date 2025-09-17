@@ -8,7 +8,7 @@ class FieldworkStatusController extends Controller
 {
     public function index()
     {
-        $statuses = FieldworkStatus::all();
+        $statuses = FieldworkStatus::latest()->get();
         return view('fieldwork_statuses.index', compact('statuses'));
     }
 
@@ -20,38 +20,53 @@ class FieldworkStatusController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'        => 'required',
-            'description' => 'nullable',
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
-        FieldworkStatus::create($request->all());
-        return redirect()->route('fieldwork_statuses.index')->with('success', 'Status berhasil ditambahkan!');
+        $status              = new FieldworkStatus();
+        $status->name        = $request->name;
+        $status->description = $request->description;
+        $status->save();
+
+        session()->flash('success', 'Status berhasil ditambahkan');
+        return redirect()->route('fieldwork_statuses.index');
     }
 
-    public function show(FieldworkStatus $fieldwork_status)
+    public function show(string $id)
     {
-        return view('fieldwork_statuses.show', compact('fieldwork_status'));
+        $status = FieldworkStatus::findOrFail($id);
+        return view('fieldwork_statuses.show', compact('status'));
     }
 
-    public function edit(FieldworkStatus $fieldwork_status)
+    public function edit(string $id)
     {
-        return view('fieldwork_statuses.edit', compact('fieldwork_status'));
+        $status = FieldworkStatus::findOrFail($id);
+        return view('fieldwork_statuses.edit', compact('status'));
     }
 
-    public function update(Request $request, FieldworkStatus $fieldwork_status)
+    public function update(Request $request, string $id)
     {
         $request->validate([
-            'name'        => 'required',
-            'description' => 'nullable',
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
-        $fieldwork_status->update($request->all());
-        return redirect()->route('fieldwork_statuses.index')->with('success', 'Status berhasil diperbarui!');
+        $status              = FieldworkStatus::findOrFail($id);
+        $status->name        = $request->name;
+        $status->description = $request->description;
+        $status->save();
+
+        session()->flash('success', 'Status berhasil diperbarui');
+        return redirect()->route('fieldwork_statuses.index');
     }
 
-    public function destroy(FieldworkStatus $fieldwork_status)
+    public function destroy(string $id)
     {
-        $fieldwork_status->delete();
-        return redirect()->route('fieldwork_statuses.index')->with('success', 'Status berhasil dihapus!');
+        $status = FieldworkStatus::findOrFail($id);
+        $status->delete();
+
+        session()->flash('success', 'Status berhasil dihapus');
+        return redirect()->route('fieldwork_statuses.index');
     }
 }

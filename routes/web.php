@@ -68,3 +68,4 @@ Route::resource('fieldwork_category', FieldworkCategoryController::class);
 Route::resource('fieldwork', FieldworkController::class);
 Route::resource('userphone', UserPhoneController::class);
 Route::resource('userprofile', UserProfileController::class);
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');

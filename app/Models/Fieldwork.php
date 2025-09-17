@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fieldwork extends Model
 {
-    protected $fillable = ['description', 'note', 'branch_id', 'category_id', 'status_id'];
+    protected $fillable = ['description', 'note', 'branch_id', 'category_id', 'status_id', 'start_date', 'end_date'];
 
     public $incrementing = false;    // id bukan auto increment
     protected $keyType   = 'string'; // id berupa string
+
+     protected $casts = [
+        'start_date' => 'date',
+        'end_date'   => 'date',
+    ];
 
     protected static function booted()
     {
@@ -35,4 +40,10 @@ class Fieldwork extends Model
     {
         return $this->belongsTo(FieldworkStatus::class, 'status_id');
     }
+
+    public function users()
+    {
+    return $this->belongsToMany(User::class, 'user_fieldworks', 'fieldwork_id', 'user_id');
+    }
+
 }

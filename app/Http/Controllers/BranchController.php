@@ -22,7 +22,7 @@ class BranchController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'      => 'required|string|max:255',
+            'name'       => 'required|string|max:255',
             'address'   => 'required|string|max:255',
             'region_id' => 'required|exists:regions,id',
         ]);
@@ -31,11 +31,10 @@ class BranchController extends Controller
         $branch->name      = $request->name;
         $branch->address   = $request->address;
         $branch->region_id = $request->region_id;
+        
         $branch->save();
-
-        return view('branch.index', [
-            'branches' => Branch::with('region')->latest()->get(),
-        ]);
+        session()->flash('success', 'Data berhasil diedit');
+        return redirect()->route('branch.index');
     }
 
     public function show(string $id)
@@ -63,11 +62,10 @@ class BranchController extends Controller
         $branch->name      = $request->name;
         $branch->address   = $request->address;
         $branch->region_id = $request->region_id;
-        $branch->save();
 
-        return view('branch.index', [
-            'branches' => Branch::with('region')->latest()->get(),
-        ]);
+        $branch->save();
+        session()->flash('success', 'Data berhasil diedit');
+        return redirect()->route('branch.index');
     }
 
     public function destroy(string $id)
@@ -75,8 +73,6 @@ class BranchController extends Controller
         $branch = Branch::findOrFail($id);
         $branch->delete();
 
-        return view('branch.index', [
-            'branches' => Branch::with('region')->latest()->get(),
-        ]);
+        return view('branch.index', ['branches' => Branch::with('region')->latest()->get(),]);
     }
 }

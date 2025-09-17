@@ -5,98 +5,115 @@ use App\Models\Branch;
 use App\Models\Fieldwork;
 use App\Models\FieldworkCategory;
 use App\Models\FieldworkStatus;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class FieldworkController extends Controller
 {
-    /**
-     * Tampilkan semua data fieldwork
-     */
     public function index()
     {
-        $fieldwork = Fieldwork::with(['branch', 'category', 'status'])->latest()->get();
+        $fieldwork = Fieldwork::with(['branch', 'category', 'status', 'users'])
+            ->latest()
+            ->get();
+
         return view('fieldwork.index', compact('fieldwork'));
     }
 
-    /**
-     * Form tambah data
-     */
     public function create()
     {
         $branches   = Branch::all();
         $categories = FieldworkCategory::all();
         $statuses   = FieldworkStatus::all();
+        $users      = User::all(); // staff yang bisa dipilih
 
-        return view('fieldwork.create', compact('branches', 'categories', 'statuses'));
+        return view('fieldwork.create', compact('branches', 'categories', 'statuses', 'users'));
     }
 
-    /**
-     * Simpan data baru
-     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'description' => 'required|string|max:255',
             'note'        => 'nullable|string',
             'branch_id'   => 'required|exists:branches,id',
             'category_id' => 'required|exists:fieldwork_categories,id',
             'status_id'   => 'required|exists:fieldwork_statuses,id',
+            'start_date'  => 'nullable|date',
+            'end_date'    => 'nullable|date|after_or_equal:start_date',
+            'users'       => 'required|array', // staff wajib diisi
+            'users.*'     => 'exists:users,id',
         ]);
 
-        Fieldwork::create($validated);
+        // simpan fieldwork
+        $fieldwork = Fieldwork::create([
+            'description' => $request->description,
+            'note'        => $request->note,
+            'branch_id'   => $request->branch_id,
+            'category_id' => $request->category_id,
+            'status_id'   => $request->status_id,
+            'start_date'  => $request->start_date,
+            'end_date'    => $request->end_date,
+        ]);
 
-        return redirect()->route('fieldwork.index')
-            ->with('success', 'Fieldwork berhasil ditambahkan');
+        // simpan ke pivot user_fieldworks
+        $fieldwork->users()->sync($request->users);
+        session()->flash('success', 'Fieldwork berhasil ditambahkan');
+        return redirect()->route('fieldwork.index');
     }
 
-    /**
-     * Detail satu data
-     */
-    public function show(Fieldwork $fieldwork)
+    public function show(string $id)
     {
-        $fieldwork->load(['branch', 'category', 'status']);
+        $fieldwork = Fieldwork::with(['branch', 'category', 'status', 'users'])->findOrFail($id);
         return view('fieldwork.show', compact('fieldwork'));
     }
 
-    /**
-     * Form edit data
-     */
-    public function edit(Fieldwork $fieldwork)
+    public function edit(string $id)
     {
+        $fieldwork  = Fieldwork::with('users')->findOrFail($id);
         $branches   = Branch::all();
         $categories = FieldworkCategory::all();
         $statuses   = FieldworkStatus::all();
+        $users      = User::all();
 
-        return view('fieldwork.edit', compact('fieldwork', 'branches', 'categories', 'statuses'));
+        return view('fieldwork.edit', compact('fieldwork', 'branches', 'categories', 'statuses', 'users'));
     }
 
-    /**
-     * Update data
-     */
-    public function update(Request $request, Fieldwork $fieldwork)
+    public function update(Request $request, string $id)
     {
-        $validated = $request->validate([
+        $request->validate([
             'description' => 'required|string|max:255',
             'note'        => 'nullable|string',
             'branch_id'   => 'required|exists:branches,id',
             'category_id' => 'required|exists:fieldwork_categories,id',
             'status_id'   => 'required|exists:fieldwork_statuses,id',
+            'start_date'  => 'nullable|date',
+            'end_date'    => 'nullable|date|after_or_equal:start_date',
+            'users'       => 'required|array',
+            'users.*'     => 'exists:users,id',
         ]);
 
-        $fieldwork->update($validated);
+        $fieldwork = Fieldwork::findOrFail($id);
+        $fieldwork->update([
+            'description' => $request->description,
+            'note'        => $request->note,
+            'branch_id'   => $request->branch_id,
+            'category_id' => $request->category_id,
+            'status_id'   => $request->status_id,
+            'start_date'  => $request->start_date,
+            'end_date'    => $request->end_date,
+        ]);
 
-        return redirect()->route('fieldwork.index')
-            ->with('success', 'Fieldwork berhasil diupdate');
+        // update pivot user_fieldworks
+        $fieldwork->users()->sync($request->users);
+        session()->flash('success', 'Fieldwork berhasil diupdate');
+        return redirect()->route('fieldwork.index');
     }
 
-    /**
-     * Hapus data
-     */
-    public function destroy(Fieldwork $fieldwork)
+    public function destroy(string $id)
     {
+        $fieldwork = Fieldwork::findOrFail($id);
         $fieldwork->delete();
 
-        return redirect()->route('fieldwork.index')
-            ->with('success', 'Fieldwork berhasil dihapus');
+        session()->flash('success', 'Fieldwork berhasil dihapus');
+        return redirect()->route('fieldwork.index');
     }
 }

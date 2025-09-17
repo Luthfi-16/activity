@@ -7,27 +7,18 @@ use Illuminate\Http\Request;
 
 class UserProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $userprofile = UserProfile::with('user')->get();
+        $userprofile = UserProfile::with('user')->latest()->get();
         return view('userprofile.index', compact('userprofile'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $users = User::all(); // buat pilihan user
+        $users = User::all();
         return view('userprofile.create', compact('users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -39,24 +30,25 @@ class UserProfileController extends Controller
             'user_id'    => 'required|exists:users,id',
         ]);
 
-        UserProfile::create($request->all());
+        $userprofile             = new UserProfile();
+        $userprofile->nik        = $request->nik;
+        $userprofile->name       = $request->name;
+        $userprofile->gender     = $request->gender;
+        $userprofile->birthplace = $request->birthplace;
+        $userprofile->birthday   = $request->birthday;
+        $userprofile->user_id    = $request->user_id;
+        $userprofile->save();
 
-        return redirect()->route('userprofile.index')
-            ->with('success', 'User profile created successfully.');
+        session()->flash('success', 'User profile berhasil ditambahkan');
+        return redirect()->route('userprofile.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $userprofile = UserProfile::with('user')->findOrFail($id);
         return view('userprofile.show', compact('userprofile'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $userprofile = UserProfile::findOrFail($id);
@@ -64,9 +56,6 @@ class UserProfileController extends Controller
         return view('userprofile.edit', compact('userprofile', 'users'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $userprofile = UserProfile::findOrFail($id);
@@ -80,11 +69,24 @@ class UserProfileController extends Controller
             'user_id'    => 'required|exists:users,id',
         ]);
 
-        $userprofile->update($request->all());
+        $userprofile->nik        = $request->nik;
+        $userprofile->name       = $request->name;
+        $userprofile->gender     = $request->gender;
+        $userprofile->birthplace = $request->birthplace;
+        $userprofile->birthday   = $request->birthday;
+        $userprofile->user_id    = $request->user_id;
+        $userprofile->save();
 
-        return redirect()->route('userprofile.index')
-            ->with('success', 'User profile updated successfully.');
+        session()->flash('success', 'User profile berhasil diupdate');
+        return redirect()->route('userprofile.index');
     }
 
-   
+    public function destroy(string $id)
+    {
+        $userprofile = UserProfile::findOrFail($id);
+        $userprofile->delete();
+
+        session()->flash('success', 'User profile berhasil dihapus');
+        return redirect()->route('userprofile.index');
+    }
 }

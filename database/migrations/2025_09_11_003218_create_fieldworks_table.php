@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('fieldworks', function (Blueprint $table) {
             $table->char('id', 11)->primary();
-            $table->string('description')->nullable();
-            $table->text('note')->nullable();
             $table->char('branch_id', 11);
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->char('status_id', 11);
             $table->foreign('status_id')->references('id')->on('fieldwork_statuses')->onDelete('cascade');
             $table->char('category_id', 11);
             $table->foreign('category_id')->references('id')->on('fieldwork_categories')->onDelete('cascade');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->string('description')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

@@ -12,7 +12,7 @@
         @csrf
 
         <div class="mb-3">
-          <label for="nik" class="form-label">NIK</label>
+          <label for="nik" class="form-label">NIN</label>
           <input type="text" name="nik" class="form-control @error('nik') is-invalid @enderror" value="{{ old('nik') }}">
            @error('nik')
             <span class="invalid-feedback" role="alert">
@@ -22,7 +22,7 @@
         </div>
 
         <div class="mb-3">
-          <label for="name" class="form-label">Nama</label>
+          <label for="name" class="form-label">Name</label>
           <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
            @error('name')
             <span class="invalid-feedback" role="alert">
@@ -34,7 +34,7 @@
         <div class="mb-3">
           <label for="gender" class="form-label">Gender</label>
           <select name="gender" class="form-control @error('gender') is-invalid @enderror">
-            <option value="">-- Pilih Gender --</option>
+            <option value="">-- Chooose Gender --</option>
             <option value="L" {{ old('gender') == 'L' ? 'selected' : '' }}>Laki-laki</option>
             <option value="P" {{ old('gender') == 'P' ? 'selected' : '' }}>Perempuan</option>
           </select>
@@ -46,7 +46,7 @@
         </div>
 
         <div class="mb-3">
-          <label for="birthplace" class="form-label">Tempat Lahir</label>
+          <label for="birthplace" class="form-label">Birth Place</label>
           <input type="text" name="birthplace" class="form-control @error('birthplace') is-invalid @enderror" value="{{ old('birthplace') }}">
            @error('birthplace')
             <span class="invalid-feedback" role="alert">
@@ -56,7 +56,7 @@
         </div>
 
         <div class="mb-3">
-          <label for="birthday" class="form-label">Tanggal Lahir</label>
+          <label for="birthday" class="form-label">Birthday</label>
           <input type="date" name="birthday" class="form-control @error('birthday') is-invalid @enderror" value="{{ old('birthday') }}">
            @error('birthday')
             <span class="invalid-feedback" role="alert">

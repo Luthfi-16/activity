@@ -8,14 +8,14 @@
       <h5 class="mb-0">Detail Fieldwork Status</h5>
     </div>
     <div class="card-body">
-      <p><strong>ID:</strong> {{ $fieldwork_status->id }}</p>
-      <p><strong>Name:</strong> {{ $fieldwork_status->name }}</p>
-      <p><strong>Description:</strong> {{ $fieldwork_status->description }}</p>
-      <p><strong>Created At:</strong> {{ $fieldwork_status->created_at->format('Y-m-d H:i') }}</p>
-      <p><strong>Updated At:</strong> {{ $fieldwork_status->updated_at->format('Y-m-d H:i') }}</p>
+      <p><strong>ID:</strong> {{ $status->id }}</p>
+      <p><strong>Name:</strong> {{ $status->name }}</p>
+      <p><strong>Description:</strong> {{ $status->description }}</p>
+      <p><strong>Created At:</strong> {{ $status->created_at->format('Y-m-d H:i') }}</p>
+      <p><strong>Updated At:</strong> {{ $status->updated_at->format('Y-m-d H:i') }}</p>
 
       <a href="{{ route('fieldwork_statuses.index') }}" class="btn btn-secondary">Back</a>
-      <a href="{{ route('fieldwork_statuses.edit', $fieldwork_status->id) }}" class="btn btn-warning">Edit</a>
+      <a href="{{ route('fieldwork_statuses.edit', $status->id) }}" class="btn btn-warning">Edit</a>
     </div>
   </div>
 </div>

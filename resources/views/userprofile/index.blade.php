@@ -1,23 +1,21 @@
 @extends('layouts.app') 
+@section('styles')
+<link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.css">
+@endsection
 @section('content')
 <div class="container">
   <h4 class="fw-bold py-3 mb-4">User Profiles / <span class="text-muted">List</span></h4>
-
-  @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-  @endif
-
   <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
       <h5 class="mb-0">User Profiles</h5>
       <a href="{{ route('userprofile.create') }}" class="btn btn-primary">+ Add User Profile</a>
     </div>
     <div class="table-responsive">
-      <table class="table">
+      <table id="dataProfile" class="table">
         <thead class="table-light">
           <tr>
             <th>Number</th>
-            <th>NIK</th>
+            <th>NIN</th>
             <th>Name</th>
             <th>Gender</th>
             <th>Birthplace</th>
@@ -60,3 +58,10 @@
   }
 </style>
 @endsection
+@push('scripts')
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.js"></script>
+    <script>
+    new DataTable('#dataProfile');
+    </script>
+@endpush

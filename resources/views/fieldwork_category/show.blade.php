@@ -9,14 +9,14 @@
       <h5 class="mb-0">Detail Fieldwork Category</h5>
     </div>
     <div class="card-body">
-      <p><strong>ID:</strong> {{ $fieldwork_category->id }}</p>
-      <p><strong>Name:</strong> {{ $fieldwork_category->name }}</p>
-      <p><strong>Description:</strong> {{ $fieldwork_category->description }}</p>
-      <p><strong>Created At:</strong> {{ $fieldwork_category->created_at->format('Y-m-d H:i') }}</p>
-      <p><strong>Updated At:</strong> {{ $fieldwork_category->updated_at->format('Y-m-d H:i') }}</p>
+      <p><strong>ID:</strong> {{ $category->id }}</p>
+      <p><strong>Name:</strong> {{ $category->name }}</p>
+      <p><strong>Description:</strong> {{ $category->description }}</p>
+      <p><strong>Created At:</strong> {{ $category->created_at->format('Y-m-d H:i') }}</p>
+      <p><strong>Updated At:</strong> {{ $category->updated_at->format('Y-m-d H:i') }}</p>
 
       <a href="{{ route('fieldwork_category.index') }}" class="btn btn-secondary">Back</a>
-      <a href="{{ route('fieldwork_category.edit', $fieldwork_category->id) }}" class="btn btn-warning">Edit</a>
+      <a href="{{ route('fieldwork_category.edit', $category->id) }}" class="btn btn-warning">Edit</a>
     </div>
   </div>
 </div>
