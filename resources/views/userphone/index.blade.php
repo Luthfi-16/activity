@@ -18,6 +18,8 @@
             <th>Number</th>
             <th>Name</th>
             <th>User Name</th>
+            <th>Created At</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">

@@ -128,7 +128,65 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script>
+document.querySelectorAll('.delete-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        Swal.fire({
+            title: 'Are You Sure?',
+            text: "Data will be deleted permanently!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit(); // baru submit kalau konfirmasi
+            }
+        });
+    });
+});
+
+        <!-- Page JS -->
+    <script src="{{ asset ('assets/js/dashboards-analytics.js') }}"></script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+    document.querySelectorAll('.delete-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            Swal.fire({
+                title: 'Are You Sure?',
+                text: "Data will be deleted permanently!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit(); 
+                }
+            });
+        });
+    });
+    </script>
+
     @yield('js')
     @stack('scripts')
+    @include('sweetalert::alert')
+  </body>
+</html>
+
+
   </body>
 </html>

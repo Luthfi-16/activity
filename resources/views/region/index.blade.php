@@ -27,7 +27,7 @@
             $no = 1;
           @endphp
           @foreach($region as $data)
-       
+
           <tr>
             <td>{{ $no++ }}</td>
             <td>{{ $data->name }}</td>
@@ -36,12 +36,13 @@
             <td>
               <a href="{{ route('region.show', $data->id) }}" class="btn btn-sm btn-info">Show</a>
               <a href="{{ route('region.edit', $data->id) }}" class="btn btn-sm btn-warning">Edit</a>
-              <form action="{{ route('region.destroy', $data->id) }}" method="POST" class="d-inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-danger"
-                  onclick="return confirm('Yakin mau hapus?')">Delete</button>
+
+              <form action="{{ route('region.destroy', $data->id) }}" method="POST" class="delete-form d-inline">
+                 @csrf
+                 @method('DELETE')
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
               </form>
+
             </td>
           </tr>
           @endforeach
@@ -51,10 +52,15 @@
   </div>
 </div>
 @endsection
+
 @push('scripts')
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.js"></script>
     <script>
     new DataTable('#dataRegion');
+
+    
     </script>
+
+    
 @endpush

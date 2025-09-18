@@ -5,7 +5,6 @@ use App\Models\Region;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-
 class RegionController extends Controller
 {
     /**
@@ -38,9 +37,9 @@ class RegionController extends Controller
         $region       = new Region();
         $region->name = $request->name;
         $region->code = $request->code;
-
         $region->save();
-        session()->flash('success', 'Data berhasil diedit');
+
+        Alert::success('Success', 'Data added successfully');
         return redirect()->route('region.index');
     }
 
@@ -75,9 +74,9 @@ class RegionController extends Controller
         $region       = Region::findOrFail($id);
         $region->name = $request->name;
         $region->code = $request->code;
-
         $region->save();
-        session()->flash('success', 'Data berhasil diedit');
+
+        Alert::success('Success', 'Data edited successfully');
         return redirect()->route('region.index');
     }
 
@@ -88,6 +87,8 @@ class RegionController extends Controller
     {
         $region = Region::findOrFail($id);
         $region->delete();
-        return redirect()->route('region.index')->with('success', 'Data Berhasil Dihapus');
+
+        Alert::warning('Deleted', 'Data deleted successfully');
+        return redirect()->route('region.index');
     }
 }
