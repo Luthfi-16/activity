@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use App\Models\Region;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BranchController extends Controller
 {
@@ -33,7 +34,7 @@ class BranchController extends Controller
         $branch->region_id = $request->region_id;
         
         $branch->save();
-        session()->flash('success', 'Data berhasil diedit');
+        Alert::success('Success', 'Data added successfully');
         return redirect()->route('branch.index');
     }
 
@@ -64,7 +65,7 @@ class BranchController extends Controller
         $branch->region_id = $request->region_id;
 
         $branch->save();
-        session()->flash('success', 'Data berhasil diedit');
+        Alert::success('Success', 'Data edited successfully');
         return redirect()->route('branch.index');
     }
 
@@ -72,7 +73,7 @@ class BranchController extends Controller
     {
         $branch = Branch::findOrFail($id);
         $branch->delete();
-
+        Alert::success('Deleted', 'Data deleted successfully');
         return view('branch.index', ['branches' => Branch::with('region')->latest()->get(),]);
     }
 }

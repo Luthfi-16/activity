@@ -7,6 +7,8 @@ use App\Models\FieldworkCategory;
 use App\Models\FieldworkStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class FieldworkController extends Controller
 {
@@ -56,7 +58,7 @@ class FieldworkController extends Controller
 
         // simpan ke pivot user_fieldworks
         $fieldwork->users()->sync($request->users);
-        session()->flash('success', 'Fieldwork berhasil ditambahkan');
+        Alert::success('Success', 'Data added successfully');
         return redirect()->route('fieldwork.index');
     }
 
@@ -104,7 +106,7 @@ class FieldworkController extends Controller
 
         // update pivot user_fieldworks
         $fieldwork->users()->sync($request->users);
-        session()->flash('success', 'Fieldwork berhasil diupdate');
+        Alert::success('Success', 'Data edited successfully');
         return redirect()->route('fieldwork.index');
     }
 
@@ -113,7 +115,7 @@ class FieldworkController extends Controller
         $fieldwork = Fieldwork::findOrFail($id);
         $fieldwork->delete();
 
-        session()->flash('success', 'Fieldwork berhasil dihapus');
+        Alert::warning('Deleted', 'Data deleted successfully');
         return redirect()->route('fieldwork.index');
     }
 }

@@ -38,7 +38,7 @@
           <label class="form-label">Start Date</label>
           <input type="date" name="start_date"
                  class="form-control @error('start_date') is-invalid @enderror"
-                 value="{{ old('start_date', $fieldwork->start_date) }}">
+                 value="{{ old('start_date', \Carbon\Carbon::parse($fieldwork->start_date)->format('Y-m-d')) }}">
           @error('start_date')
             <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
           @enderror
@@ -49,7 +49,7 @@
           <label class="form-label">End Date</label>
           <input type="date" name="end_date"
                  class="form-control @error('end_date') is-invalid @enderror"
-                 value="{{ old('end_date', $fieldwork->end_date) }}">
+                 value="{{ old('start_date', \Carbon\Carbon::parse($fieldwork->end_date)->format('Y-m-d')) }}">
           @error('end_date')
             <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
           @enderror

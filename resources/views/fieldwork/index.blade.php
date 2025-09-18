@@ -39,11 +39,10 @@
             <td>
               <a href="{{ route('fieldwork.show', $fieldwork->id) }}" class="btn btn-sm btn-info">Show</a>
               <a href="{{ route('fieldwork.edit', $fieldwork->id) }}" class="btn btn-sm btn-warning">Edit</a>
-              <form action="{{ route('fieldwork.destroy', $fieldwork->id) }}" method="POST" class="d-inline">
+              <form action="{{ route('fieldwork.destroy', $fieldwork->id) }}" method="POST" class="delete-form d-inline">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-danger"
-                        onclick="return confirm('Yakin mau hapus?')">Delete</button>
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
               </form>
             </td>
           </tr>
