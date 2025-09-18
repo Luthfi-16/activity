@@ -2,6 +2,7 @@
 @section('styles')
 <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.css">
 @endsection
+
 @section('content')
 <div class="container">
   <h4 class="fw-bold py-3 mb-4">Fieldwork Statuses / <span class="text-muted">List</span></h4>
@@ -23,38 +24,61 @@
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-            @php
-            $no = 1;
-          @endphp
-          @foreach($statuses as $status)
-         
-          <tr>
-            <td>{{ $no++}}</td>
-            <td>{{ $status->name }}</td>
-            <td>{{ $status->description ?? '-' }}</td>
-            <td>{{ $status->created_at->format('Y-m-d') }}</td>
-            <td>
-              <a href="{{ route('fieldwork_statuses.show', $status->id) }}" class="btn btn-sm btn-info">Show</a>
-              <a href="{{ route('fieldwork_statuses.edit', $status->id) }}" class="btn btn-sm btn-warning">Edit</a>
-              <form action="{{ route('fieldwork_statuses.destroy', $status->id) }}" method="POST" class="d-inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-danger"
-                  onclick="return confirm('Yakin mau hapus?')">Delete</button>
-              </form>
-            </td>
-          </tr>
-          @endforeach
+            @php $no = 1; @endphp
+            @foreach($statuses as $status)
+            <tr>
+              <td>{{ $no++}}</td>
+              <td>{{ $status->name }}</td>
+              <td>{{ $status->description ?? '-' }}</td>
+              <td>{{ $status->created_at->format('Y-m-d') }}</td>
+              <td>
+                <a href="{{ route('fieldwork_statuses.show', $status->id) }}" class="btn btn-sm btn-info">Show</a>
+                <a href="{{ route('fieldwork_statuses.edit', $status->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                
+                <!-- Ganti onclick confirm jadi SweetAlert -->
+                <form action="{{ route('fieldwork_statuses.destroy', $status->id) }}" 
+                      method="POST" 
+                      class="d-inline delete-form">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+            @endforeach
         </tbody>
       </table>
     </div>
   </div>
 </div>
 @endsection
+
 @push('scripts')
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-    new DataTable('#dataStatus');
+      new DataTable('#dataStatus');
+
+      // SweetAlert confirm delete
+      document.querySelectorAll('.delete-form').forEach(form => {
+          form.addEventListener('submit', function(e) {
+              e.preventDefault();
+              Swal.fire({
+                  title: 'Yakin?',
+                  text: "Data akan dihapus permanen!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Ya, hapus!',
+                  cancelButtonText: 'Batal'
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      form.submit();
+                  }
+              });
+          });
+      });
     </script>
 @endpush

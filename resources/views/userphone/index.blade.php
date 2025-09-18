@@ -36,12 +36,11 @@
             <td>
               <a href="{{ route('userphone.show', $data->id) }}" class="btn btn-sm btn-info">Show</a>
               <a href="{{ route('userphone.edit', $data->id) }}" class="btn btn-sm btn-warning">Edit</a>
-              <form action="{{ route('userphone.destroy', $data->id) }}" method="POST" class="d-inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-danger"
-                  onclick="return confirm('Yakin mau hapus?')">Delete</button>
-              </form>
+               <form action = "{{ route('userphone.destroy', $data->id) }}"method = "POST"class  = "delete-form d-inline" >
+               @csrf
+               @method('DELETE')
+               <button type = "submit"class  = "btn btn-sm btn-danger" > Delete </button>
+               </form>
             </td>
           </tr>
           @endforeach

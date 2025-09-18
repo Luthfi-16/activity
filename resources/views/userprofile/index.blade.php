@@ -2,6 +2,7 @@
 @section('styles')
 <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.css">
 @endsection
+
 @section('content')
 <div class="container">
   <h4 class="fw-bold py-3 mb-4">User Profiles / <span class="text-muted">List</span></h4>
@@ -15,7 +16,7 @@
         <thead class="table-light">
           <tr>
             <th>Number</th>
-            <th>NIN</th>
+            <th>NIK</th>
             <th>Name</th>
             <th>Gender</th>
             <th>Birthplace</th>
@@ -31,17 +32,26 @@
             <td>{{ $no++ }}</td>
             <td>{{ $data->nik }}</td>
             <td>{{ $data->name }}</td>
-            @if($data->gender == "L")
-                <td>Laki-Laki</td>
-            @elseif($data->gender == "P")
-                <td>Perempuan</td>
-            @endif
+            <td>
+              @if($data->gender == "L")
+                Laki-Laki
+              @elseif($data->gender == "P")
+                Perempuan
+              @endif
+            </td>
             <td>{{ $data->birthplace }}</td>
             <td>{{ $data->birthday }}</td>
             <td>{{ $data->user->email ?? '-' }}</td>
             <td>
               <a href="{{ route('userprofile.show', $data->id) }}" class="btn btn-sm btn-info">Show</a>
               <a href="{{ route('userprofile.edit', $data->id) }}" class="btn btn-sm btn-warning">Edit</a>
+
+              {{-- DELETE pakai sweetalert --}}
+              <form action="{{ route('userprofile.destroy', $data->id) }}" method="POST" class="d-inline delete-form">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+              </form>
             </td>
           </tr>
           @endforeach
@@ -58,10 +68,33 @@
   }
 </style>
 @endsection
+
 @push('scripts')
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-    new DataTable('#dataProfile');
+      new DataTable('#dataProfile');
+
+      // Konfirmasi delete
+      document.querySelectorAll('.delete-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          Swal.fire({
+              title: 'Yakin?',
+              text: "User profile ini akan dihapus permanen!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Ya, hapus!',
+              cancelButtonText: 'Batal'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  form.submit();
+              }
+          });
+        });
+      });
     </script>
 @endpush

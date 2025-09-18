@@ -36,11 +36,10 @@
             <td>
               <a href="{{ route('fieldwork_category.show', $kategori->id) }}" class="btn btn-sm btn-info">Show</a>
               <a href="{{ route('fieldwork_category.edit', $kategori->id) }}" class="btn btn-sm btn-warning">Edit</a>
-              <form action="{{ route('fieldwork_category.destroy', $kategori->id) }}" method="POST" class="d-inline">
+                <form action="{{ route('fieldwork_category.destroy', $kategori->id) }}" method="POST" class="d-inline delete-form">
                 @csrf
                 @method('DELETE')
-              <button type="submit" class="btn btn-sm btn-danger"
-                  onclick="return confirm('Yakin mau hapus?')">Delete</button>
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
               </form>
             </td>
           </tr>

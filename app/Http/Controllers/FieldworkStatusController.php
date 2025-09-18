@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FieldworkStatus;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class FieldworkStatusController extends Controller
 {
@@ -29,7 +30,7 @@ class FieldworkStatusController extends Controller
         $status->description = $request->description;
         $status->save();
 
-        session()->flash('success', 'Status berhasil ditambahkan');
+        Alert::success('Success', 'Status added successfully');
         return redirect()->route('fieldwork_statuses.index');
     }
 
@@ -57,7 +58,7 @@ class FieldworkStatusController extends Controller
         $status->description = $request->description;
         $status->save();
 
-        session()->flash('success', 'Status berhasil diperbarui');
+        Alert::success('Success', 'Status updated successfully');
         return redirect()->route('fieldwork_statuses.index');
     }
 
@@ -66,7 +67,7 @@ class FieldworkStatusController extends Controller
         $status = FieldworkStatus::findOrFail($id);
         $status->delete();
 
-        session()->flash('success', 'Status berhasil dihapus');
+        Alert::warning('Deleted', 'Status deleted successfully');
         return redirect()->route('fieldwork_statuses.index');
     }
 }

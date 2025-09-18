@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserProfileController extends Controller
 {
@@ -39,7 +40,7 @@ class UserProfileController extends Controller
         $userprofile->user_id    = $request->user_id;
         $userprofile->save();
 
-        session()->flash('success', 'User profile berhasil ditambahkan');
+        Alert::success('Success', 'Profile created.');
         return redirect()->route('userprofile.index');
     }
 
@@ -77,7 +78,7 @@ class UserProfileController extends Controller
         $userprofile->user_id    = $request->user_id;
         $userprofile->save();
 
-        session()->flash('success', 'User profile berhasil diupdate');
+        Alert::success('Success', 'Profile updated.');
         return redirect()->route('userprofile.index');
     }
 
@@ -86,7 +87,7 @@ class UserProfileController extends Controller
         $userprofile = UserProfile::findOrFail($id);
         $userprofile->delete();
 
-        session()->flash('success', 'User profile berhasil dihapus');
+        Alert::warning('Deleted', 'Profile deleted.');
         return redirect()->route('userprofile.index');
     }
 }

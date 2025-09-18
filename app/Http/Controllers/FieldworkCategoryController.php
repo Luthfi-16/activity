@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FieldworkCategory;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class FieldworkCategoryController extends Controller
 {
@@ -27,9 +28,9 @@ class FieldworkCategoryController extends Controller
         $category              = new FieldworkCategory();
         $category->name        = $request->name;
         $category->description = $request->description;
-
         $category->save();
-        session()->flash('success', 'Data berhasil diedit');
+
+        Alert::success('Success', 'Category added successfully');
         return redirect()->route('fieldwork_category.index');
     }
 
@@ -55,9 +56,9 @@ class FieldworkCategoryController extends Controller
         $category              = FieldworkCategory::findOrFail($id);
         $category->name        = $request->name;
         $category->description = $request->description;
-
         $category->save();
-        session()->flash('success', 'Data berhasil diedit');
+
+        Alert::success('Success', 'Category updated successfully');
         return redirect()->route('fieldwork_category.index');
     }
 
@@ -66,6 +67,7 @@ class FieldworkCategoryController extends Controller
         $category = FieldworkCategory::findOrFail($id);
         $category->delete();
 
-        return redirect()->route('fieldwork_category.index')->with('success', 'Data Berhasil Dihapus');
+        Alert::warning('Deleted', 'Category deleted successfully');
+        return redirect()->route('fieldwork_category.index');
     }
 }

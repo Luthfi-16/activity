@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\UserPhone;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserPhoneController extends Controller
 {
@@ -27,13 +28,14 @@ class UserPhoneController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
-        $userphone            = new UserPhone();
-        $userphone->number    = $request->number;
-        $userphone->name      = $request->name;
-        $userphone->user_id   = $request->user_id;
+        $userphone          = new UserPhone();
+        $userphone->number  = $request->number;
+        $userphone->name    = $request->name;
+        $userphone->user_id = $request->user_id;
 
         $userphone->save();
-        session()->flash('success', 'Data berhasil diedit');
+
+        Alert::success('Success', 'Data added successfully');
         return redirect()->route('userphone.index');
     }
 
@@ -46,7 +48,7 @@ class UserPhoneController extends Controller
     public function edit(string $id)
     {
         $userphone = UserPhone::findOrFail($id);
-        $user     = User::all();
+        $user      = User::all();
         return view('userphone.edit', compact('userphone', 'user'));
     }
 
@@ -58,13 +60,14 @@ class UserPhoneController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
-        $userphone            = UserPhone::findOrFail($id);
-        $userphone->number    = $request->number;
-        $userphone->name      = $request->name;
-        $userphone->user_id   = $request->user_id;
+        $userphone          = UserPhone::findOrFail($id);
+        $userphone->number  = $request->number;
+        $userphone->name    = $request->name;
+        $userphone->user_id = $request->user_id;
 
         $userphone->save();
-        session()->flash('success', 'Data berhasil diedit');
+
+        Alert::success('Success', 'Data edited successfully');
         return redirect()->route('userphone.index');
     }
 
@@ -72,6 +75,8 @@ class UserPhoneController extends Controller
     {
         $userphone = UserPhone::findOrFail($id);
         $userphone->delete();
-        return redirect()->route('userphone.index')->with('success', 'Data Berhasil Dihapus');
+
+        Alert::warning('Deleted', 'Data deleted successfully');
+        return redirect()->route('userphone.index');
     }
 }
