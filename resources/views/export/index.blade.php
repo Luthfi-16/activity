@@ -4,14 +4,39 @@
 @endsection
 @section('content')
 <div class="container">
-  <h4 class="fw-bold py-3 mb-4">Fieldwork / <span class="text-muted">List</span></h4>
+  <h4 class="fw-bold py-3 mb-4">Fieldwork / <span class="text-muted">Export</span></h4>
 
+  <div class="card mb-3">
+    <div class="card-body">
+      <form method="GET" action="{{ route('fieldwork.export') }}" class="row g-2 align-items-end">
+        <div class="col-md-3">
+          <label for="awal" class="form-label">Tanggal Awal</label>
+          <input type="date" name="awal" id="awal" class="form-control" value="{{ request('awal') }}">
+        </div>
+        <div class="col-md-3">
+          <label for="akhir" class="form-label">Tanggal Akhir</label>
+          <input type="date" name="akhir" id="akhir" class="form-control" value="{{ request('akhir') }}">
+        </div>
+        <div class="col-md-6 d-flex gap-2">
+          <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Cari</button>
+          <a href="{{ route('fieldwork.export') }}" class="btn btn-secondary">Reset</a>
+
+          @if(request('awal') && request('akhir'))
+            <a href="{{ route('fieldwork.export.excel', ['awal' => request('awal'), 'akhir' => request('akhir')]) }}" 
+               class="btn btn-success">
+              <i class="bi bi-file-earmark-excel"></i> Export Excel
+            </a>
+          @endif
+        </div>
+      </form>
+    </div>
+  </div>
+
+  @if(isset($fieldworks) && count($fieldworks) > 0)
   <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <h5 class="mb-0">Fieldwork</h5>
+      <h5 class="mb-0">Result</h5>
       <div class="d-flex align-items-center gap-2">
-        <a href="{{ route('fieldwork.create') }}" class="btn btn-primary">+ Add Fieldwork</a>
-        <a href="{{ route('fieldwork.export') }}" class="btn btn-success">Export Fieldwork</a>
       </div>
     </div>
 
@@ -26,12 +51,11 @@
             <th>Note</th>
             <th>Status</th>
             <th>Created At</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
           @php $no = 1; @endphp
-          @foreach($fieldwork as $fw)
+          @foreach($fieldworks as $fw)
           <tr>
             <td>{{ $no++ }}</td>
             <td>{{ $fw->branch?->name ?? '-' }}</td>
@@ -40,22 +64,14 @@
             <td>{{ $fw->note ?? '-' }}</td>
             <td>{{ $fw->status?->name ?? '-' }}</td>
             <td>{{ $fw->created_at->format('Y-m-d') }}</td>
-            <td>
-              <a href="{{ route('fieldwork.show', $fw->id) }}" class="btn btn-sm btn-info">Show</a>
-              <a href="{{ route('fieldwork.edit', $fw->id) }}" class="btn btn-sm btn-warning">Edit</a>
-              <form action="{{ route('fieldwork.destroy', $fw->id) }}" method="POST" class="delete-form d-inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-              </form>
-            </td>
           </tr>
           @endforeach
         </tbody>
       </table>
     </div>
   </div>
-</div>    
+  @endif
+</div>
 @endsection
 
 @push('scripts')

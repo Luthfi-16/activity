@@ -27,7 +27,6 @@
             $no = 1;
           @endphp
           @foreach($categories as $kategori)
-          
           <tr>
             <td>{{ $no++ }}</td>
             <td>{{ $kategori->name }}</td>

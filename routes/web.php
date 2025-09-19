@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\FieldworkExportController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -69,3 +71,6 @@ Route::resource('fieldwork', FieldworkController::class);
 Route::resource('userphone', UserPhoneController::class);
 Route::resource('userprofile', UserProfileController::class);
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+// Fieldwork Export
+Route::get('/export', [FieldworkExportController::class, 'index'])->name('fieldwork.export');
+Route::get('/export/excel', [FieldworkExportController::class, 'excel'])->name('fieldwork.export.excel');
