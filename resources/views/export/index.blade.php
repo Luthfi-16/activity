@@ -27,6 +27,13 @@
               <i class="bi bi-file-earmark-excel"></i> Export Excel
             </a>
           @endif
+
+          @if(request('awal') && request('akhir'))
+            <a href="{{ route('fieldwork.export.pdf', ['awal' => request('awal'), 'akhir' => request('akhir')]) }}" 
+               class="btn btn-danger">
+              <i class="bi bi-file-earmark-pdf"></i> Export PDF
+            </a>
+          @endif
         </div>
       </form>
     </div>

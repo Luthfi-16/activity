@@ -71,6 +71,10 @@ Route::resource('fieldwork', FieldworkController::class);
 Route::resource('userphone', UserPhoneController::class);
 Route::resource('userprofile', UserProfileController::class);
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
 // Fieldwork Export
 Route::get('/export', [FieldworkExportController::class, 'index'])->name('fieldwork.export');
+//excel
 Route::get('/export/excel', [FieldworkExportController::class, 'excel'])->name('fieldwork.export.excel');
+//pdf
+Route::get('/export/pdf', [FieldworkExportController::class, 'pdf'])->name('fieldwork.export.pdf');
