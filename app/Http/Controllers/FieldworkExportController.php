@@ -16,7 +16,7 @@ class FieldworkExportController extends Controller
         $fieldworks = collect();
 
         if ($awal && $akhir) {
-            $fieldworks = Fieldwork::with(['branch', 'category', 'status', 'users'])
+            $fieldworks = Fieldwork::with(['branch', 'category', 'users'])
                 ->whereBetween('start_date', [$awal, $akhir])
                 ->get();
         }
@@ -30,7 +30,7 @@ class FieldworkExportController extends Controller
         $awal  = $request->awal;
         $akhir = $request->akhir;
 
-        $query = Fieldwork::with(['branch', 'category', 'status', 'users']);
+        $query = Fieldwork::with(['branch', 'category', 'users']);
 
         if ($awal && $akhir) {
             $query->whereBetween('start_date', [$awal, $akhir]);
@@ -50,7 +50,7 @@ class FieldworkExportController extends Controller
     $awal  = $request->awal;
     $akhir = $request->akhir;
 
-    $query = Fieldwork::with(['branch', 'category', 'status', 'users']);
+    $query = Fieldwork::with(['branch', 'category', 'users']);
 
     if ($awal && $akhir) {
         $query->whereBetween('start_date', [$awal, $akhir]);

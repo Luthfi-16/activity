@@ -1,11 +1,14 @@
 @extends('layouts.app')
+
 @section('styles')
 <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.css">
 @endsection
+
 @section('content')
 <div class="container">
   <h4 class="fw-bold py-3 mb-4">Fieldwork / <span class="text-muted">Export</span></h4>
 
+  <!-- Filter & Tombol Export -->
   <div class="card mb-3">
     <div class="card-body">
       <form method="GET" action="{{ route('fieldwork.export') }}" class="row g-2 align-items-end">
@@ -18,7 +21,9 @@
           <input type="date" name="akhir" id="akhir" class="form-control" value="{{ request('akhir') }}">
         </div>
         <div class="col-md-6 d-flex gap-2">
-          <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Cari</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-search"></i> Cari
+          </button>
           <a href="{{ route('fieldwork.export') }}" class="btn btn-secondary">Reset</a>
 
           @if(request('awal') && request('akhir'))
@@ -26,9 +31,7 @@
                class="btn btn-success">
               <i class="bi bi-file-earmark-excel"></i> Export Excel
             </a>
-          @endif
 
-          @if(request('awal') && request('akhir'))
             <a href="{{ route('fieldwork.export.pdf', ['awal' => request('awal'), 'akhir' => request('akhir')]) }}" 
                class="btn btn-danger">
               <i class="bi bi-file-earmark-pdf"></i> Export PDF
@@ -39,16 +42,15 @@
     </div>
   </div>
 
+  <!-- Hasil Data -->
   @if(isset($fieldworks) && count($fieldworks) > 0)
   <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
+    <div class="card-header">
       <h5 class="mb-0">Result</h5>
-      <div class="d-flex align-items-center gap-2">
-      </div>
     </div>
 
     <div class="table-responsive text-nowrap">
-      <table id="dataFieldwork" class="table">
+      <table id="dataFieldwork" class="table table-bordered">
         <thead class="table-light">
           <tr>
             <th>No</th>
@@ -60,16 +62,16 @@
             <th>Created At</th>
           </tr>
         </thead>
-        <tbody class="table-border-bottom-0">
+        <tbody>
           @php $no = 1; @endphp
           @foreach($fieldworks as $fw)
           <tr>
             <td>{{ $no++ }}</td>
             <td>{{ $fw->branch?->name ?? '-' }}</td>
             <td>{{ $fw->category?->name ?? '-' }}</td>
-            <td>{{ Str::limit($fw->description, 20)}}</td>
+            <td>{{ Str::limit($fw->description, 20) }}</td>
             <td>{{ $fw->note ?? '-' }}</td>
-            <td>{{ $fw->status?->name ?? '-' }}</td>
+            <td>{{ $fw->status ?? '-' }}</td>
             <td>{{ $fw->created_at->format('Y-m-d') }}</td>
           </tr>
           @endforeach

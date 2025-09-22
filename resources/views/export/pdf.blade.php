@@ -51,7 +51,7 @@
                 <td style="vertical-align: top;">{{ $fw->note }}</td>
                 <td style="vertical-align: top;">{{ $fw->branch->name ?? '-' }}</td>
                 <td style="vertical-align: top;">{{ $fw->category->name ?? '-' }}</td>
-                <td style="vertical-align: top;">{{ $fw->status->name ?? '-' }}</td>
+                <td style="vertical-align: top;">{{ $fw->status ?? '-' }}</td>
                 <td style="vertical-align: top;">{{ $fw->start_date?->format('d-m-Y') }}</td>
                 <td style="vertical-align: top;">{{ $fw->end_date?->format('d-m-Y') }}</td>
                 <td style="vertical-align: top;">
