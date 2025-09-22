@@ -1,3 +1,34 @@
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        table-layout: fixed; /* biar kolom punya ukuran fix */
+    }
+    th, td {
+        word-wrap: break-word;
+        white-space: normal;
+        vertical-align: top;
+    }
+    td {
+        font-size: 12px; /* opsional biar muat lebih banyak */
+    }
+    th {
+        text-align: left;
+    }
+    /* atur lebar kolom sesuai kebutuhan */
+    th:nth-child(1), td:nth-child(1) { width: 5%; }   /* No */
+    th:nth-child(2), td:nth-child(2) { width: 30%; }  /* Deskripsi */
+    th:nth-child(3), td:nth-child(3) { width: 15%; }  /* Catatan */
+    th:nth-child(4), td:nth-child(4) { width: 12%; }  /* Cabang */
+    th:nth-child(5), td:nth-child(5) { width: 12%; }  /* Kategori */
+    th:nth-child(6), td:nth-child(6) { width: 10%; }  /* Status */
+    th:nth-child(7), td:nth-child(7) { width: 9%; }   /* Tanggal Mulai */
+    th:nth-child(8), td:nth-child(8) { width: 9%; }   /* Tanggal Selesai */
+    th:nth-child(9), td:nth-child(9) { width: 15%; }  /* Personil */
+</style>
+
+<h1 align="center">Laporan Aktivitas</h1>
+
 <table border="1" cellspacing="0" cellpadding="5">
     <thead>
         <tr>

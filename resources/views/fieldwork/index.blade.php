@@ -11,7 +11,7 @@
       <h5 class="mb-0">Fieldwork</h5>
       <div class="d-flex align-items-center gap-2">
         <a href="{{ route('fieldwork.create') }}" class="btn btn-primary">+ Add Fieldwork</a>
-        <a href="{{ route('fieldwork.export') }}" class="btn btn-success">Export Fieldwork</a>
+        <a href="{{ route('fieldwork.export') }}" class="btn btn-secondary">Export Fieldwork</a>
       </div>
     </div>
 
@@ -38,7 +38,16 @@
             <td>{{ $fw->category?->name ?? '-' }}</td>
             <td>{{ Str::limit($fw->description, 20)}}</td>
             <td>{{ $fw->note ?? '-' }}</td>
-            <td>{{ $fw->status?->name ?? '-' }}</td>
+            @if($fw->status == "pending")
+              <td><span class="badge bg-secondary">Pending</span></td>
+            @elseif($fw->status == "on_progres")
+              <td><span class="badge bg-warning">On Progres</span></td>
+            @elseif($fw->status == "done")
+              <td><span class="badge bg-success">Done</span></td>
+            @elseif($fw->status == "cancel")
+              <td><span class="badge bg-danger">Cancel</span></td>
+              
+            @endif
             <td>{{ $fw->created_at->format('Y-m-d') }}</td>
             <td>
               <a href="{{ route('fieldwork.show', $fw->id) }}" class="btn btn-sm btn-info">Show</a>

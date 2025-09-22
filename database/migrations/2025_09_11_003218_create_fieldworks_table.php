@@ -15,8 +15,9 @@ return new class extends Migration
             $table->char('id', 11)->primary();
             $table->char('branch_id', 11);
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
-            $table->char('status_id', 11);
-            $table->foreign('status_id')->references('id')->on('fieldwork_statuses')->onDelete('cascade');
+            $table->enum('status', ['pending', 'on_progres', 'done', 'cancel']);
+            // $table->char('status_id', 11);
+            // $table->foreign('status_id')->references('id')->on('fieldwork_statuses')->onDelete('cascade');
             $table->char('category_id', 11);
             $table->foreign('category_id')->references('id')->on('fieldwork_categories')->onDelete('cascade');
             $table->date('start_date')->nullable();

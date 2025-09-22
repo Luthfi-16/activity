@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use App\Models\Fieldwork;
 use App\Models\FieldworkCategory;
-use App\Models\FieldworkStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -14,7 +13,7 @@ class FieldworkController extends Controller
 {
     public function index()
     {
-        $fieldwork = Fieldwork::with(['branch', 'category', 'status', 'users'])
+        $fieldwork = Fieldwork::with(['branch', 'category', 'users'])
             ->latest()
             ->get();
 
@@ -25,10 +24,9 @@ class FieldworkController extends Controller
     {
         $branches   = Branch::all();
         $categories = FieldworkCategory::all();
-        $statuses   = FieldworkStatus::all();
         $users      = User::all(); // staff yang bisa dipilih
 
-        return view('fieldwork.create', compact('branches', 'categories', 'statuses', 'users'));
+        return view('fieldwork.create', compact('branches', 'categories', 'users'));
     }
 
     public function store(Request $request)
@@ -38,7 +36,7 @@ class FieldworkController extends Controller
             'note'        => 'nullable|string',
             'branch_id'   => 'required|exists:branches,id',
             'category_id' => 'required|exists:fieldwork_categories,id',
-            'status_id'   => 'required|exists:fieldwork_statuses,id',
+            'status'   => 'required|in:pending,on_progres,done,cancel',
             'start_date'  => 'nullable|date',
             'end_date'    => 'nullable|date|after_or_equal:start_date',
             'users'       => 'required|array', // staff wajib diisi
@@ -51,7 +49,7 @@ class FieldworkController extends Controller
             'note'        => $request->note,
             'branch_id'   => $request->branch_id,
             'category_id' => $request->category_id,
-            'status_id'   => $request->status_id,
+            'status'   => $request->status,
             'start_date'  => $request->start_date,
             'end_date'    => $request->end_date,
         ]);
@@ -64,7 +62,7 @@ class FieldworkController extends Controller
 
     public function show(string $id)
     {
-        $fieldwork = Fieldwork::with(['branch', 'category', 'status', 'users'])->findOrFail($id);
+        $fieldwork = Fieldwork::with(['branch', 'category', 'users'])->findOrFail($id);
         return view('fieldwork.show', compact('fieldwork'));
     }
 
@@ -73,10 +71,9 @@ class FieldworkController extends Controller
         $fieldwork  = Fieldwork::with('users')->findOrFail($id);
         $branches   = Branch::all();
         $categories = FieldworkCategory::all();
-        $statuses   = FieldworkStatus::all();
         $users      = User::all();
 
-        return view('fieldwork.edit', compact('fieldwork', 'branches', 'categories', 'statuses', 'users'));
+        return view('fieldwork.edit', compact('fieldwork', 'branches', 'categories', 'users'));
     }
 
     public function update(Request $request, string $id)
@@ -86,7 +83,7 @@ class FieldworkController extends Controller
             'note'        => 'nullable|string',
             'branch_id'   => 'required|exists:branches,id',
             'category_id' => 'required|exists:fieldwork_categories,id',
-            'status_id'   => 'required|exists:fieldwork_statuses,id',
+            'status'   => 'required|in:pending,on_progres,done,cancel',
             'start_date'  => 'nullable|date',
             'end_date'    => 'nullable|date|after_or_equal:start_date',
             'users'       => 'required|array',
@@ -99,7 +96,7 @@ class FieldworkController extends Controller
             'note'        => $request->note,
             'branch_id'   => $request->branch_id,
             'category_id' => $request->category_id,
-            'status_id'   => $request->status_id,
+            'status'   => $request->status,
             'start_date'  => $request->start_date,
             'end_date'    => $request->end_date,
         ]);

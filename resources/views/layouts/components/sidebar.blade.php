@@ -96,13 +96,6 @@
         </a>
     </li>
 
-    <li class="menu-item {{ Request::routeIs('fieldwork_statuses.*') ? 'active' : '' }}">
-        <a href="{{ route('fieldwork_statuses.index') }}" class="menu-link">
-            <i class="menu-icon tf-icons bi bi-check2-all"></i>
-            <div data-i18n="Tables">Fieldwork Statuses</div>
-        </a>
-    </li>
-
     <li class="menu-item {{ Request::routeIs('fieldwork_category.*') ? 'active' : '' }}">
         <a href="{{ route('fieldwork_category.index') }}" class="menu-link">
             <i class="menu-icon tf-icons bi bi-tags-fill"></i>

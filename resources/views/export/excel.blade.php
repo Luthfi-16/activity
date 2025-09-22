@@ -1,6 +1,9 @@
 <table border="1" cellspacing="0" cellpadding="5">
     <thead>
         <tr>
+            <th colspan="9"><h2>Laporan Aktivitas</h2></th>
+        </tr>
+        <tr>
             <th>No</th>
             <th>Deskripsi</th>
             <th>Catatan</th>

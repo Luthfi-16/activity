@@ -90,18 +90,18 @@
         {{-- Status --}}
         <div class="mb-3">
           <label class="form-label">Status</label>
-          <select name="status_id" class="form-select @error('status_id') is-invalid @enderror">
-            <option value="">-- Pilih Status --</option>
-            @foreach($statuses as $status)
-              <option value="{{ $status->id }}" {{ old('status_id', $fieldwork->status_id) == $status->id ? 'selected' : '' }}>
-                {{ $status->name }}
-              </option>
-            @endforeach
+          <select name="status" class="form-select @error('status') is-invalid @enderror">
+            <option value="">-- Choose Status --</option>
+            <option value="pending" {{ old('status', $fieldwork->status) == 'pending' ? 'selected' : '' }}>Pending</option>
+            <option value="on_progres" {{ old('status', $fieldwork->status) == 'on_progress' ? 'selected' : '' }}>On Progress</option>
+            <option value="done" {{ old('status', $fieldwork->status) == 'done' ? 'selected' : '' }}>Done</option>
+            <option value="cancel" {{ old('status', $fieldwork->status) == 'cancel' ? 'selected' : '' }}>Cancel</option>
           </select>
-          @error('status_id')
+          @error('status')
             <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
           @enderror
         </div>
+
 
         {{-- Users --}}
         <div class="mb-3">
