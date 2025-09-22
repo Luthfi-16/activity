@@ -92,10 +92,10 @@
           <label class="form-label">Status</label>
           <select name="status" class="form-select @error('status') is-invalid @enderror">
             <option value="">-- Choose Status --</option>
-            <option value="pending" {{ old('status', $fieldwork->status) == 'pending' ? 'selected' : '' }}>Pending</option>
-            <option value="on_progres" {{ old('status', $fieldwork->status) == 'on_progress' ? 'selected' : '' }}>On Progress</option>
-            <option value="done" {{ old('status', $fieldwork->status) == 'done' ? 'selected' : '' }}>Done</option>
-            <option value="cancel" {{ old('status', $fieldwork->status) == 'cancel' ? 'selected' : '' }}>Cancel</option>
+            <option value="Pendind" {{ old('status', $fieldwork->status) == 'Pendind' ? 'selected' : '' }}>Pending</option>
+            <option value="On Progress" {{ old('status', $fieldwork->status) == 'On Progress' ? 'selected' : '' }}>On Progress</option>
+            <option value="Done" {{ old('status', $fieldwork->status) == 'Done' ? 'selected' : '' }}>Done</option>
+            <option value="Cancel" {{ old('status', $fieldwork->status) == 'Cancel' ? 'selected' : '' }}>Cancel</option>
           </select>
           @error('status')
             <span class="invalid-feedback"><strong>{{ $message }}</strong></span>

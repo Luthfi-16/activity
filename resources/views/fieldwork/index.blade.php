@@ -38,13 +38,13 @@
             <td>{{ $fw->category?->name ?? '-' }}</td>
             <td>{{ Str::limit($fw->description, 20)}}</td>
             <td>{{ $fw->note ?? '-' }}</td>
-            @if($fw->status == "pending")
+            @if($fw->status == "Pending")
               <td><span class="badge bg-secondary">Pending</span></td>
-            @elseif($fw->status == "on_progres")
-              <td><span class="badge bg-warning">On Progres</span></td>
-            @elseif($fw->status == "done")
+            @elseif($fw->status == "On Progress")
+              <td><span class="badge bg-warning">On Progress</span></td>
+            @elseif($fw->status == "Done")
               <td><span class="badge bg-success">Done</span></td>
-            @elseif($fw->status == "cancel")
+            @elseif($fw->status == "Cancel")
               <td><span class="badge bg-danger">Cancel</span></td>
               
             @endif

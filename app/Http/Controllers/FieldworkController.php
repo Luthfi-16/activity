@@ -36,10 +36,10 @@ class FieldworkController extends Controller
             'note'        => 'nullable|string',
             'branch_id'   => 'required|exists:branches,id',
             'category_id' => 'required|exists:fieldwork_categories,id',
-            'status'   => 'required|in:pending,on_progres,done,cancel',
+            'status'   => 'required|in:Pending,On Progress,Done,Cancel',
             'start_date'  => 'nullable|date',
             'end_date'    => 'nullable|date|after_or_equal:start_date',
-            'users'       => 'required|array', // staff wajib diisi
+            'users'       => 'required|array',
             'users.*'     => 'exists:users,id',
         ]);
 
@@ -83,7 +83,7 @@ class FieldworkController extends Controller
             'note'        => 'nullable|string',
             'branch_id'   => 'required|exists:branches,id',
             'category_id' => 'required|exists:fieldwork_categories,id',
-            'status'   => 'required|in:pending,on_progres,done,cancel',
+            'status'   => 'required|in:Pending,On Progress,Done,Cancel',
             'start_date'  => 'nullable|date',
             'end_date'    => 'nullable|date|after_or_equal:start_date',
             'users'       => 'required|array',

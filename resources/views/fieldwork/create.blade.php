@@ -90,10 +90,10 @@
           <label class="form-label">Status</label>
           <select name="status" class="form-select @error('status') is-invalid @enderror">
             <option value="">-- Choose Status --</option>
-            <option value="pending">Pending</option>
-            <option value="on_progres">On Progres</option>
-            <option value="done">Done</option>
-            <option value="cancel">Cancel</option>
+            <option value="Pending">Pending</option>
+            <option value="On Progress">On Progress</option>
+            <option value="Done">Done</option>
+            <option value="Cancel">Cancel</option>
           </select>
           @error('status')
             <span class="invalid-feedback"><strong>{{ $message }}</strong></span>

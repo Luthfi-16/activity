@@ -24,13 +24,13 @@
                 <td style="text-align: center; vertical-align: middle;">{{ $fw->branch->name ?? '-' }}</td>
                 <td style="text-align: center; vertical-align: middle;">{{ $fw->category->name ?? '-' }}</td>
                 <td style="text-align: center; vertical-align: middle;
-                    @if($fw->status == 'pending') background-color:#fff3cd; color:#856404;
-                    @elseif($fw->status == 'on_progres') background-color:#cce5ff; color:#004085;
-                    @elseif($fw->status == 'done') background-color:#d4edda; color:#155724;
-                    @elseif($fw->status == 'cancel') background-color:#f8d7da; color:#721c24;
+                    @if($fw->status == 'Pending') background-color:#fff3cd; color:#856404;
+                    @elseif($fw->status == 'On Progress') background-color:#cce5ff; color:#004085;
+                    @elseif($fw->status == 'Done') background-color:#d4edda; color:#155724;
+                    @elseif($fw->status == 'Cancel') background-color:#f8d7da; color:#721c24;
                     @else background-color:#e2e3e5; color:#383d41;
                     @endif
-                ">
+                    ">
                     {{ $fw->status ?? '-' }}
                 </td>
                 <td style="text-align: center; vertical-align: middle;">{{ $fw->start_date?->format('d-m-Y') }}</td>

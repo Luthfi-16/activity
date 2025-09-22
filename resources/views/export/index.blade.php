@@ -59,7 +59,8 @@
             <th>Description</th>
             <th>Note</th>
             <th>Status</th>
-            <th>Created At</th>
+            <th>Start date</th>
+            <th>End Date</th>
           </tr>
         </thead>
         <tbody>
@@ -71,16 +72,17 @@
             <td>{{ $fw->category?->name ?? '-' }}</td>
             <td>{{ Str::limit($fw->description, 20) }}</td>
             <td>{{ $fw->note ?? '-' }}</td>
-                @if($fw->status == "pending")
+                @if($fw->status == "Pending")
                   <td><span class="badge bg-secondary">Pending</span></td>
-                @elseif($fw->status == "on_progres")
+                @elseif($fw->status == "On Progress")
                   <td><span class="badge bg-warning">On Progres</span></td>
-                @elseif($fw->status == "done")
+                @elseif($fw->status == "Done")
                   <td><span class="badge bg-success">Done</span></td>
-                @elseif($fw->status == "cancel")
+                @elseif($fw->status == "Cancel")
                   <td><span class="badge bg-danger">Cancel</span></td>  
                 @endif
-            <td>{{ $fw->created_at->format('Y-m-d') }}</td>
+            <td>{{ $fw->start_date->format('Y-m-d') }}</td>
+            <td>{{ $fw->end_date->format('Y-m-d') }}</td>
           </tr>
           @endforeach
         </tbody>
