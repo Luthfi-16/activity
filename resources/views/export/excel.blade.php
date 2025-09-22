@@ -4,26 +4,26 @@
             <th colspan="9"><h2>Laporan Aktivitas</h2></th>
         </tr>
         <tr>
-            <th>No</th>
-            <th>Deskripsi</th>
-            <th>Catatan</th>
-            <th>Cabang</th>
-            <th>Kategori</th>
-            <th>Status</th>
-            <th>Tanggal Mulai</th>
-            <th>Tanggal Selesai</th>
-            <th>Personil</th>
+            <th style="text-align: center; vertical-align: middle;">No</th>
+            <th style="text-align: center; vertical-align: middle;">Deskripsi</th>
+            <th style="text-align: center; vertical-align: middle;">Catatan</th>
+            <th style="text-align: center; vertical-align: middle;">Cabang</th>
+            <th style="text-align: center; vertical-align: middle;">Kategori</th>
+            <th style="text-align: center; vertical-align: middle;">Status</th>
+            <th style="text-align: center; vertical-align: middle;">Tanggal Mulai</th>
+            <th style="text-align: center; vertical-align: middle;">Tanggal Selesai</th>
+            <th style="text-align: center; vertical-align: middle;">Personil</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($fieldworks as $i => $fw)
             <tr>
-                <td style="vertical-align: top;">{{ $i + 1 }}</td>
-                <td style="vertical-align: top;">{{ $fw->description }}</td>
-                <td style="vertical-align: top;">{{ $fw->note }}</td>
-                <td style="vertical-align: top;">{{ $fw->branch->name ?? '-' }}</td>
-                <td style="vertical-align: top;">{{ $fw->category->name ?? '-' }}</td>
-                <td style="vertical-align: top;
+                <td style="text-align: center; vertical-align: middle;">{{ $i + 1 }}</td>
+                <td style="text-align: center; vertical-align: middle;">{{ $fw->description }}</td>
+                <td style="text-align: center; vertical-align: middle;">{{ $fw->note }}</td>
+                <td style="text-align: center; vertical-align: middle;">{{ $fw->branch->name ?? '-' }}</td>
+                <td style="text-align: center; vertical-align: middle;">{{ $fw->category->name ?? '-' }}</td>
+                <td style="text-align: center; vertical-align: middle;
                     @if($fw->status == 'pending') background-color:#fff3cd; color:#856404;
                     @elseif($fw->status == 'on_progres') background-color:#cce5ff; color:#004085;
                     @elseif($fw->status == 'done') background-color:#d4edda; color:#155724;
@@ -33,9 +33,9 @@
                 ">
                     {{ $fw->status ?? '-' }}
                 </td>
-                <td style="vertical-align: top;">{{ $fw->start_date?->format('d-m-Y') }}</td>
-                <td style="vertical-align: top;">{{ $fw->end_date?->format('d-m-Y') }}</td>
-                <td style="vertical-align: top;">
+                <td style="text-align: center; vertical-align: middle;">{{ $fw->start_date?->format('d-m-Y') }}</td>
+                <td style="text-align: center; vertical-align: middle;">{{ $fw->end_date?->format('d-m-Y') }}</td>
+                <td style="text-align: center; vertical-align: middle;">
                     @foreach ($fw->users as $user)
                         {{ $user->name }}<br>
                     @endforeach
