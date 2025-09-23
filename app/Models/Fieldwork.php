@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fieldwork extends Model
 {
-    protected $fillable = ['description', 'note', 'branch_id', 'category_id', 'status', 'start_date', 'end_date'];
+    protected $fillable = ['description', 'note', 'branch_id', 'category_id', 'status_id', 'start_date', 'end_date'];
 
     public $incrementing = false;    // id bukan auto increment
     protected $keyType   = 'string'; // id berupa string
@@ -36,10 +36,10 @@ class Fieldwork extends Model
         return $this->belongsTo(FieldworkCategory::class, 'category_id');
     }
 
-    // public function status()
-    // {
-    //     return $this->belongsTo(FieldworkStatus::class, 'status_id');
-    // }
+    public function status()
+    {
+        return $this->belongsTo(FieldworkStatus::class, 'status_id');
+    }
 
     public function users()
     {

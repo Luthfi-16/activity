@@ -38,16 +38,7 @@
             <td>{{ $fw->category?->name ?? '-' }}</td>
             <td>{{ Str::limit($fw->description, 20)}}</td>
             <td>{{ $fw->note ?? '-' }}</td>
-            @if($fw->status == "Pending")
-              <td><span class="badge bg-secondary">Pending</span></td>
-            @elseif($fw->status == "On Progress")
-              <td><span class="badge bg-warning">On Progress</span></td>
-            @elseif($fw->status == "Done")
-              <td><span class="badge bg-success">Done</span></td>
-            @elseif($fw->status == "Cancel")
-              <td><span class="badge bg-danger">Cancel</span></td>
-              
-            @endif
+            <td>{{ $fw->status?->name ?? '-'}}</td>
             <td>{{ $fw->created_at->format('Y-m-d') }}</td>
             <td>
               <a href="{{ route('fieldwork.show', $fw->id) }}" class="btn btn-sm btn-info">Show</a>

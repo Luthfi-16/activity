@@ -72,15 +72,7 @@
             <td>{{ $fw->category?->name ?? '-' }}</td>
             <td>{{ Str::limit($fw->description, 20) }}</td>
             <td>{{ $fw->note ?? '-' }}</td>
-                @if($fw->status == "Pending")
-                  <td><span class="badge bg-secondary">Pending</span></td>
-                @elseif($fw->status == "On Progress")
-                  <td><span class="badge bg-warning">On Progres</span></td>
-                @elseif($fw->status == "Done")
-                  <td><span class="badge bg-success">Done</span></td>
-                @elseif($fw->status == "Cancel")
-                  <td><span class="badge bg-danger">Cancel</span></td>  
-                @endif
+            <td>{{ $fw->status?->name ?? '-' }}</td>
             <td>{{ $fw->start_date->format('Y-m-d') }}</td>
             <td>{{ $fw->end_date->format('Y-m-d') }}</td>
           </tr>
