@@ -68,6 +68,13 @@
         <span class="menu-header-text">Pages</span>
     </li>
 
+     <li class="menu-item {{ Request::routeIs('listuser.*') ? 'active' : '' }}">
+        <a href="{{ route('listuser.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bi bi-people-fill"></i>
+            <div data-i18n="Tables">List Users</div>
+        </a>
+    </li>
+
     <li class="menu-item {{ Request::routeIs('userphone.*') ? 'active' : '' }}">
         <a href="{{ route('userphone.index') }}" class="menu-link">
             <i class="menu-icon tf-icons bi bi-telephone-fill"></i>

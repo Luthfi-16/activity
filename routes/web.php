@@ -75,6 +75,7 @@ Route::resource('fieldwork_category', FieldworkCategoryController::class);
 Route::resource('fieldwork', FieldworkController::class);
 Route::resource('userphone', UserPhoneController::class);
 Route::resource('userprofile', UserProfileController::class);
+Route::resource('listuser', App\Http\Controllers\UserController::class)->middleware('is_admin');
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 // Fieldwork Export
