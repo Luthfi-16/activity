@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('styles')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
 <div class="container">
   <h4 class="fw-bold py-3 mb-4">branches / <span class="text-muted">Edit</span></h4>
@@ -28,7 +31,7 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Region</label>
-          <select name="region_id" class="form-control @error('region_id') is-invalid @enderror">
+          <select id="region" name="region_id" class="form-control select2 @error('region_id') is-invalid @enderror">
             @foreach($regions as $region)
               <option value="{{ $region->id }}" {{ $region->id == $branch->region_id ? 'selected' : '' }}>
                 {{ $region->name }}
@@ -48,3 +51,14 @@
   </div>
 </div>
 @endsection
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript">	
+	$(document).ready(function() {
+		$('#region').select2();
+	});
+</script>
+
+
+@endpush

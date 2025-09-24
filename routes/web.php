@@ -62,6 +62,11 @@ Route::get('/auth/google/callback', function () {
     return redirect('/home');
 });
 
+
+// routes/web.php
+Route::get('/branches-by-region/{region_id}', [App\Http\Controllers\BranchController::class, 'getByRegion']);
+
+
 // crud
 Route::resource('region', RegionController::class);
 Route::resource('branch', BranchController::class);

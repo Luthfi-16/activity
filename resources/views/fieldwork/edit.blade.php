@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('styles')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
 <div class="container">
   <h4 class="fw-bold py-3 mb-4">Fieldwork / <span class="text-muted">Edit</span></h4>
@@ -55,13 +58,28 @@
           @enderror
         </div>
 
+        {{-- Region --}}
+        <div class="mb-3">
+          <label class="form-label">Region</label>
+          <select id="region" class="form-select">
+            <option value="">-- Choose Region --</option>
+            @foreach($regions as $region)
+              <option value="{{ $region->id }}"
+                {{ $fieldwork->branch && $fieldwork->branch->region_id == $region->id ? 'selected' : '' }}>
+                {{ $region->name }}
+              </option>
+            @endforeach
+          </select>
+        </div>
+
         {{-- Branch --}}
         <div class="mb-3">
           <label class="form-label">Branch</label>
-          <select name="branch_id" class="form-select @error('branch_id') is-invalid @enderror">
-            <option value="">-- Pilih Branch --</option>
+          <select id="branch" name="branch_id" class="form-select @error('branch_id') is-invalid @enderror">
+            <option value="">-- Choose Branch --</option>
             @foreach($branches as $branch)
-              <option value="{{ $branch->id }}" {{ old('branch_id', $fieldwork->branch_id) == $branch->id ? 'selected' : '' }}>
+              <option value="{{ $branch->id }}"
+                {{ old('branch_id', $fieldwork->branch_id) == $branch->id ? 'selected' : '' }}>
                 {{ $branch->name }}
               </option>
             @endforeach
@@ -70,6 +88,7 @@
             <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
           @enderror
         </div>
+
 
         {{-- Category --}}
         <div class="mb-3">
@@ -129,3 +148,55 @@
   </div>
 </div>
 @endsection
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $('#region').on('change', function () {
+    let regionId = $(this).val();
+    $('#branch').empty().append('<option value="">-- Choose Branch --</option>');
+    if (regionId) {
+      $.get('/branches-by-region/' + regionId, function (data) {
+        $.each(data, function (i, branch) {
+          $('#branch').append('<option value="'+ branch.id +'">'+ branch.name +'</option>');
+        });
+      });
+    }
+  });
+</script>
+@endpush
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript">	
+	$(document) . ready(function () {
+    // Init select2
+    $('#region') . select2({placeholder: "-- Choose Region --"});
+    $('#branch') . select2({placeholder: "-- Choose Branch --"});
+
+    // Saat region dipilih
+    $('#region') . on('change', function () {
+    let regionId = $(this) . val();
+    $('#branch') . empty() . append('<option value="">-- Choose Branch --</option>');
+
+    if (regionId) {
+        $ . get('/branches-by-region/'+regionId, function (data) {
+            let newOptions = '';
+            $ . each(data, function (i, branch) {
+                newOptions += '<option value="'+branch . id+'">'+branch . name+'</option>';
+            });
+
+            // masukkan semua opsi sekaligus
+            $('#branch') . html('<option value="">-- Choose Branch --</option>'+newOptions);
+
+            // reset dan refresh select2 biar opsi langsung muncul
+            $('#branch') . val(null) . trigger('change.select2');
+        });
+    } else {
+        $('#branch') . val(null) . trigger('change.select2');
+    }
+});
+
+});
+
+</script>
+@endpush
