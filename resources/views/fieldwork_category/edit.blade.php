@@ -12,7 +12,7 @@
         @csrf
         @method('PUT')
         <div class="mb-3">
-          <label class="form-label">Name</label>
+          <label class="form-label">Category</label>
           <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ $category->name }}" >
           @error('name')
             <span class="invalid-feedback" role="alert">

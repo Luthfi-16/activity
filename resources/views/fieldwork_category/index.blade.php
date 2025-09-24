@@ -9,7 +9,7 @@
   <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
       <h5 class="mb-0">Fieldwork category</h5>
-      <a href="{{ route('fieldwork_category.create') }}" class="btn btn-primary">+ Add Fieldwork kategori</a>
+      <a href="{{ route('fieldwork_category.create') }}" class="btn btn-primary">+ Add Fieldwork Category</a>
     </div>
     <div class="table-responsive text-nowrap">
       <table id="dataCategory" class="table">
@@ -26,16 +26,16 @@
            @php
             $no = 1;
           @endphp
-          @foreach($categories as $kategori)
+          @foreach($category as $data)
           <tr>
             <td>{{ $no++ }}</td>
-            <td>{{ $kategori->name }}</td>
-            <td>{{ $kategori->description ?? '-' }}</td>
-            <td>{{ $kategori->created_at->format('Y-m-d') }}</td>
+            <td>{{ $data->name }}</td>
+            <td>{{ $data->description ?? '-' }}</td>
+            <td>{{ $data->created_at->format('Y-m-d') }}</td>
             <td>
-              <a href="{{ route('fieldwork_category.show', $kategori->id) }}" class="btn btn-sm btn-info">Show</a>
-              <a href="{{ route('fieldwork_category.edit', $kategori->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                <form action="{{ route('fieldwork_category.destroy', $kategori->id) }}" method="POST" class="d-inline delete-form">
+              <a href="{{ route('fieldwork_category.show', $data->id) }}" class="btn btn-sm btn-info">Show</a>
+              <a href="{{ route('fieldwork_category.edit', $data->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                <form action="{{ route('fieldwork_category.destroy', $data->id) }}" method="POST" class="d-inline delete-form">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>

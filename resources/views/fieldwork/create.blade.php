@@ -74,9 +74,9 @@
           <label class="form-label">Category</label>
           <select name="category_id" class="form-select @error('category_id') is-invalid @enderror">
             <option value="">-- Choose Category --</option>
-            @foreach($categories as $category)
-              <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                {{ $category->name }}
+            @foreach($category as $kategori)
+              <option value="{{ $kategori->id }}" {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}>
+                {{ $kategori->name }}
               </option>
             @endforeach
           </select>
@@ -90,9 +90,9 @@
           <label class="form-label">Status</label>
           <select name="status_id" class="form-select @error('status_id') is-invalid @enderror">
           <option value="">-- Choose Status --</option>
-            @foreach($statuses as $status)
-              <option value="{{ $status->id }}" {{ old('status_id') == $status->id ? 'selected' : '' }}>
-                {{ $status->name }}
+            @foreach($status as $st)
+              <option value="{{ $st->id }}" {{ old('st_id') == $st->id ? 'selected' : '' }}>
+                {{ $st->name }}
               </option>
             @endforeach
           </select>
@@ -103,7 +103,7 @@
 
         {{-- Users --}}
         <div class="mb-3">
-          <label class="form-label">Peserta (Users)</label>
+          <label class="form-label">Staff (Users)</label>
           <select name="users[]" multiple class="form-select @error('user_ids') is-invalid @enderror">
             @foreach($users as $user)
               <option value="{{ $user->id }}"

@@ -9,8 +9,8 @@ class FieldworkCategoryController extends Controller
 {
     public function index()
     {
-        $categories = FieldworkCategory::latest()->get();
-        return view('fieldwork_category.index', compact('categories'));
+        $category = FieldworkCategory::latest()->get();
+        return view('fieldwork_category.index', compact('category'));
     }
 
     public function create()

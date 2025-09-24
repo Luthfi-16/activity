@@ -24,11 +24,11 @@ class FieldworkController extends Controller
     public function create()
     {
         $branches   = Branch::all();
-        $categories = FieldworkCategory::all();
-        $statuses = FieldworkStatus::all();
+        $category = FieldworkCategory::all();
+        $status = FieldworkStatus::all();
         $users      = User::all(); // staff yang bisa dipilih
 
-        return view('fieldwork.create', compact('branches', 'statuses', 'categories', 'users'));
+        return view('fieldwork.create', compact('branches', 'status', 'category', 'users'));
     }
 
     public function store(Request $request)
@@ -71,12 +71,12 @@ class FieldworkController extends Controller
     public function edit(string $id)
     {
         $fieldwork  = Fieldwork::with('users')->findOrFail($id);
-        $branches   = Branch::all();
-        $categories = FieldworkCategory::all();
-        $statuses = FieldworkStatus::all();
+        $branch   = Branch::all();
+        $category = FieldworkCategory::all();
+        $status = FieldworkStatus::all();
         $users      = User::all();
 
-        return view('fieldwork.edit', compact('fieldwork', 'statuses', 'branches', 'categories', 'users'));
+        return view('fieldwork.edit', compact('fieldwork', 'status', 'branch', 'category', 'users'));
     }
 
     public function update(Request $request, string $id)

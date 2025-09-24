@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('fieldwork_statuses', function (Blueprint $table) {
             $table->char('id', 11)->primary();
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
