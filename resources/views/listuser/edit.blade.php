@@ -32,22 +32,29 @@
           @enderror
         </div>
 
-        {{-- <div class="mb-3">
-          <label for="user_id" class="form-label">User Email</label>
-          <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
-            <option value="">-- Pilih User --</option>
-            @foreach($users as $user)
-              <option value="{{ $user->id }}" {{ old('user_id', $userprofile->user_id) == $user->id ? 'selected' : '' }}>
-                {{ $user->email }}
-              </option>
-            @endforeach
-          </select>
-           @error('user_id')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-          @enderror
-        </div> --}}
+        <div class="mb-3 form-password-toggle">
+                  <div class="d-flex justify-content-between">
+                    <label class="form-label" for="password">Change Password (If You Want)</label>
+                  </div>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control"
+                      name="password"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="password"
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+
+        <div class="mb-3">
+          <label for="name" class="form-label">Confirm New Password</label>
+            <input type="password" name="password_confirmation" class="form-control" placeholder="Konfirmasi jika mengisi password baru" />
+        </div>
+
+        
 
         <button type="submit" class="btn btn-primary">Update</button>
         <a href="{{ route('listuser.index') }}" class="btn btn-secondary">Cancel</a>

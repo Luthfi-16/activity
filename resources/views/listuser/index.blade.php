@@ -9,7 +9,9 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">List Users</h5>
-                {{-- <a href="{{ route('userprofile.create') }}" class="btn btn-primary">+ Add User Profile</a> --}}
+                @if(Auth::user()->is_admin)
+                    <a href="{{ route('listuser.create') }}" class="btn btn-primary">+ Add User Account</a>
+                @endif
             </div>
             <div class="table-responsive">
                 <table id="dataProfile" class="table">
@@ -18,21 +20,21 @@
                             <th>Number</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Actions</th>
+                            @if (Auth::user()->is_admin)
+                                <th>Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
                         @php $no = 1; @endphp
-                        @foreach ($user as $data)
+                        @foreach ($users as $data)
                             <tr>
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $data->name }}</td>
                                 <td>{{ $data->email }}</td>
-                                <td>
-                                    @if (auth()->user()->is_admin)
-                                    <a href="{{ route('listuser.edit', $data->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                    @if (Auth::user()->is_admin)
+                                        <td><a href="{{ route('listuser.edit', $data->id) }}" class="btn btn-sm btn-warning">Edit</a></td>
                                     @endif
-                                </td>
                         {{-- <td>
                             <a href="{{ route('listuser.edit', $data->id) }}" class="btn btn-sm btn-warning">Edit</a>
                         </td> --}}

@@ -9,7 +9,9 @@ use App\Http\Controllers\FieldworkCategoryController;
 use App\Http\Controllers\UserPhoneController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\RegionController;
-use App\Models\Branch;use App\Models\User;
+use App\Http\Middleware\Admin;
+use App\Models\Branch;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -74,8 +76,7 @@ Route::resource('fieldwork_statuses', FieldworkStatusController::class);
 Route::resource('fieldwork_category', FieldworkCategoryController::class);
 Route::resource('fieldwork', FieldworkController::class);
 Route::resource('userphone', UserPhoneController::class);
-Route::resource('userprofile', UserProfileController::class);
-Route::resource('listuser', App\Http\Controllers\UserController::class)->middleware('is_admin');
+Route::resource('listuser', App\Http\Controllers\UserController::class);
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 // Fieldwork Export
@@ -84,3 +85,9 @@ Route::get('/export', [FieldworkExportController::class, 'index'])->name('fieldw
 Route::get('/export/excel', [FieldworkExportController::class, 'excel'])->name('fieldwork.export.excel');
 //pdf
 Route::get('/export/pdf', [FieldworkExportController::class, 'pdf'])->name('fieldwork.export.pdf');
+
+Route::get('/profile', [UserProfileController::class, 'myProfile'])->name('profile');
+Route::get('/profile/create', [UserProfileController::class, 'create'])->name('profile.create');
+Route::post('/profile/store', [UserProfileController::class, 'store'])->name('profile.store');
+Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/profile/update', [UserProfileController::class, 'update'])->name('profile.update');

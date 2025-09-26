@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 
 
@@ -40,6 +41,24 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+        protected function authenticated(Request $request, $user)
+    {
+        // ✅ Generate ID max 11 char (sesuai migration)
+        $id         = Str::random(11);
+        $tokenValue = Str::random(32);
+
+        DB::table('tokens')->insert([
+            'id'         => $id,
+            'value'      => $tokenValue,
+            'is_revoked' => 0,
+            'user_id'    => $user->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        session(['login_token' => $tokenValue]);
     }
 
     public function logout(Request $request)

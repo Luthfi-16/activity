@@ -51,4 +51,15 @@ class User extends Authenticatable
     return $this->belongsToMany(Fieldwork::class, 'user_fieldworks', 'user_id', 'fieldwork_id');
     }
 
+    // app/Models/User.php
+        public function profile()
+        {
+            return $this->hasOne(\App\Models\UserProfile::class);
+        }
+
+        public function phone()
+        {
+            return $this->hasMany(\App\Models\UserPhone::class);
+        }
+
 }

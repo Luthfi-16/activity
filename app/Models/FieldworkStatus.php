@@ -23,6 +23,6 @@ class FieldworkStatus extends Model
 
     public function fieldwork()
     {
-        return $this->belongsTo(Fieldwork::class);
+        return $this->hasMany(Fieldwork::class, 'status_id');
     }
 }

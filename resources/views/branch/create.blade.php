@@ -21,7 +21,7 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Address</label>
-          <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" placeholder="Branch Address">
+          <textarea name="address" class="form-control @error('address') is-invalid @enderror" placeholder="Branch Address"></textarea>
           @error('address')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>

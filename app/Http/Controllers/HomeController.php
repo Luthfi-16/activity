@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Region;
+use App\Models\Branch;
+use App\Models\Fieldwork;
+
 
 class HomeController extends Controller
 {
@@ -23,6 +28,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $totalUsers     = User::count();
+        $totalBranches  = Branch::count();
+        $totalFieldwork = Fieldwork::count();
+        $totalRegions   = Region::count();
+
+        return view('home', compact('totalUsers', 'totalBranches', 'totalFieldwork', 'totalRegions'));
     }
 }
