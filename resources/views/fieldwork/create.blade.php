@@ -113,7 +113,8 @@
         {{-- Users --}}
         <div class="mb-3">
           <label class="form-label">Staff (Users)</label>
-          <select name="users[]" multiple class="form-select @error('user_ids') is-invalid @enderror">
+          <select name="users[]" multiple 
+                  class="form-select select2 @error('user_ids') is-invalid @enderror">
             @foreach($users as $user)
               <option value="{{ $user->id }}"
                 {{ collect(old('users'))->contains($user->id) ? 'selected' : '' }}>
@@ -127,6 +128,7 @@
           @enderror
         </div>
 
+
         <button type="submit" class="btn btn-primary">Save</button>
         <a href="{{ route('fieldwork.index') }}" class="btn btn-secondary">Cancel</a>
       </form>
@@ -138,35 +140,32 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script type="text/javascript">	
-	$(document) . ready(function () {
+	$(document).ready(function () {
     // Init select2
-    $('#region') . select2({placeholder: "-- Choose Region --"});
-    $('#branch') . select2({placeholder: "-- Choose Branch --"});
+    $('#region').select2({ placeholder: "-- Choose Region --" });
+    $('#branch').select2({ placeholder: "-- Choose Branch --" });
+    $('select[name="users[]"]').select2({ placeholder: "-- Choose Users --" });
 
     // Saat region dipilih
-    $('#region') . on('change', function () {
-    let regionId = $(this) . val();
-    $('#branch') . empty() . append('<option value="">-- Choose Branch --</option>');
+    $('#region').on('change', function () {
+        let regionId = $(this).val();
+        $('#branch').empty().append('<option value="">-- Choose Branch --</option>');
 
-    if (regionId) {
-        $ . get('/branches-by-region/'+regionId, function (data) {
-            let newOptions = '';
-            $ . each(data, function (i, branch) {
-                newOptions += '<option value="'+branch . id+'">'+branch . name+'</option>';
+        if (regionId) {
+            $.get('/branches-by-region/' + regionId, function (data) {
+                let newOptions = '';
+                $.each(data, function (i, branch) {
+                    newOptions += '<option value="' + branch.id + '">' + branch.name + '</option>';
+                });
+                $('#branch').html('<option value="">-- Choose Branch --</option>' + newOptions);
+                $('#branch').val(null).trigger('change.select2');
             });
-
-            // masukkan semua opsi sekaligus
-            $('#branch') . html('<option value="">-- Choose Branch --</option>'+newOptions);
-
-            // reset dan refresh select2 biar opsi langsung muncul
-            $('#branch') . val(null) . trigger('change.select2');
-        });
-    } else {
-        $('#branch') . val(null) . trigger('change.select2');
-    }
+        } else {
+            $('#branch').val(null).trigger('change.select2');
+        }
+    });
 });
 
-});
 
 </script>
 @endpush

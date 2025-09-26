@@ -27,7 +27,7 @@ class FieldworkController extends Controller
         $branches = Branch::all();
         $category = FieldworkCategory::all();
         $status   = FieldworkStatus::all();
-        $users    = User::all(); // staff yang bisa dipilih
+        $users = User::where('is_admin', 0)->orderBy('name')->get();
 
         return view('fieldwork.create', compact('branches', 'status', 'category', 'users', 'regions'));
     }
@@ -76,7 +76,7 @@ class FieldworkController extends Controller
         $branches    = Branch::all();
         $categories  = FieldworkCategory::all();
         $statuses    = FieldworkStatus::all();
-        $users     = User::all();
+        $users = User::where('is_admin', 0)->orderBy('name')->get();
         // Ambil region dari branch yang sudah terpasang (jika ada)
     $selectedRegionId = $fieldwork->branch ? $fieldwork->branch->region_id : null;
 
