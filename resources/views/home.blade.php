@@ -52,12 +52,31 @@
     </div>
   </div>
 
-  <!-- Grafik Fieldwork -->
+  <!-- Fieldwork per Bulan + Fieldwork by Status -->
+  <div class="row mt-4">
+    <!-- Fieldwork per Bulan -->
+    <div class="col-md-8">
+      <div class="card shadow-sm p-3" style="height: 380px;">
+        <h5 class="mb-3">Total Fieldwork per Bulan ({{ date('Y') }})</h5>
+        <canvas id="fieldworkChart" style="height: 280px !important;"></canvas>
+      </div>
+    </div>
+
+    <!-- Fieldwork by Status -->
+    <div class="col-md-4">
+      <div class="card shadow-sm p-3 d-flex align-items-center justify-content-center" style="height: 380px;">
+        <h5 class="mb-3">Fieldwork by Status</h5>
+        <canvas id="statusChart" style="height: 280px !important; width:100%"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Branches per Region -->
   <div class="row mt-4">
     <div class="col-md-12">
       <div class="card shadow-sm p-3">
-        <h5 class="mb-3">Total Fieldwork per Bulan ({{ date('Y') }})</h5>
-        <canvas id="fieldworkChart" height="100"></canvas>
+        <h5 class="mb-3">Branches per Region</h5>
+        <canvas id="branchesChart" height="200"></canvas>
       </div>
     </div>
   </div>
@@ -66,41 +85,35 @@
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.0"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    // ================================
+    // Fieldwork per Bulan (Line Chart)
+    // ================================
     const ctx = document.getElementById('fieldworkChart').getContext('2d');
 
-    // Gradient hijau dari atas ke bawah
     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
     gradient.addColorStop(0, 'rgba(16,185,129,0.4)');
     gradient.addColorStop(1, 'rgba(16,185,129,0)');
 
     const chartData = @json($chartData);
+    const months = @json($months);
 
-    // Plugin buat garis crosshair
-    const crosshairPlugin = {
-      id: 'crosshair',
-      afterDraw: (chart) => {
-        if (chart.tooltip._active && chart.tooltip._active.length) {
-          const ctx = chart.ctx;
-          ctx.save();
-          const activePoint = chart.tooltip._active[0].element;
-          ctx.beginPath();
-          ctx.moveTo(activePoint.x, chart.chartArea.top);
-          ctx.lineTo(activePoint.x, chart.chartArea.bottom);
-          ctx.lineWidth = 1;
-          ctx.strokeStyle = '#9ca3af';
-          ctx.setLineDash([4, 4]);
-          ctx.stroke();
-          ctx.restore();
-        }
-      }
-    };
+    // Tentukan range default (semester)
+    const currentMonth = new Date().getMonth() + 1; // Jan=1
+    let minIndex = 0;
+    let maxIndex = 5;
 
-    new Chart(ctx, {
+    if (currentMonth > 6) {
+      minIndex = 6; // Jul
+      maxIndex = 11; // Dec
+    }
+
+    const fieldworkChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: @json($months),
+        labels: months,
         datasets: [{
           label: 'Fieldwork',
           data: chartData,
@@ -112,53 +125,117 @@
           pointBackgroundColor: '#10b981',
           pointBorderColor: '#10b981',
           pointBorderWidth: 2,
-          pointRadius: 0,               // default ga ada bulatan
-          pointHoverRadius: 7,          // muncul kalau di-hover
-          clip: false                   // biar buletan ga kepotong atas/bawah
+          pointRadius: 0,
+          pointHoverRadius: 7,
+          clip: {left: 0, right: 0, top: 10, bottom: 10}
         }]
       },
       options: {
         responsive: true,
-        interaction: {
-          mode: 'nearest',
-          intersect: false
-        },
-        plugins: {
+        interaction: { mode: 'nearest', intersect: false },
+        plugins: { 
           legend: { display: false },
-          tooltip: {
-            backgroundColor: '#fff',
-            titleColor: '#111827',
-            bodyColor: '#10b981',
-            borderColor: '#e5e7eb',
-            borderWidth: 1,
-            padding: 10,
-            displayColors: false,
-            callbacks: {
-              label: function(context) {
-                return context.parsed.y;
-              }
-            }
+          zoom: {
+            pan: { enabled: true, mode: 'x' },
+            zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
           }
         },
         scales: {
           x: {
             grid: { display: false },
-            ticks: { color: '#6b7280' }
+            ticks: { color: '#6b7280' },
+            min: minIndex,   // default semester
+            max: maxIndex    // default semester
           },
           y: {
             beginAtZero: true,
-            suggestedMin: 0,                          // ruang bawah
-            suggestedMax: Math.max(...chartData), // ruang atas
+            suggestedMin: 0,
+            suggestedMax: Math.max(...chartData),
             ticks: { precision: 0, color: '#6b7280' },
             grid: { color: '#f3f4f6' }
           }
-        },
-        // Cursor crosshair
-        onHover: (event, chartElement) => {
-          event.native.target.style.cursor = chartElement.length ? 'crosshair' : 'default';
         }
+      }
+    });
+
+    // Reset ke 6 bulan default saat double click
+    ctx.canvas.addEventListener('dblclick', function() {
+      fieldworkChart.resetZoom();
+      fieldworkChart.options.scales.x.min = minIndex;
+      fieldworkChart.options.scales.x.max = maxIndex;
+      fieldworkChart.update();
+    });
+
+    // ================================
+    // Fieldwork by Status (Doughnut)
+    // ================================
+    const statusLabels = @json($statusLabels);
+    const statusData   = @json($statusData);
+
+    const baseColors = [
+      '#f59e0b', '#3b82f6', '#10b981', '#ef4444', '#8b5cf6',
+      '#ec4899', '#14b8a6', '#a855f7', '#eab308', '#64748b'
+    ];
+
+    const statusColors = statusLabels.map((_, i) => baseColors[i % baseColors.length]);
+
+    new Chart(document.getElementById('statusChart').getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: statusLabels,
+        datasets: [{
+          data: statusData,
+          backgroundColor: statusColors,
+          borderWidth: 2,
+          borderColor: '#fff'
+        }]
       },
-      plugins: [crosshairPlugin]
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { color: '#374151' } },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.label || '';
+                let value = context.raw || 0;
+                return `${label}: ${value}`;
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // ================================
+    // Branches per Region (Bar Chart)
+    // ================================
+    const regions = @json($regions);
+    const branchesData = @json($branchesData);
+
+    new Chart(document.getElementById('branchesChart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: regions,
+        datasets: [{
+          label: 'Branches',
+          data: branchesData,
+          backgroundColor: '#6366f1',
+          borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#6b7280' } },
+          y: {
+            beginAtZero: true,
+            ticks: { precision: 0, color: '#6b7280' },
+            grid: { color: '#f3f4f6' }
+          }
+        }
+      }
     });
   });
 </script>
