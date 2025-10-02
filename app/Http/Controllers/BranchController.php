@@ -74,8 +74,9 @@ class BranchController extends Controller
         $branch = Branch::findOrFail($id);
         $branch->delete();
         Alert::success('Deleted', 'Data deleted successfully');
-        return view('branch.index', ['branches' => Branch::with('region')->latest()->get(),]);
+        return redirect()->route('branch.index');
     }
+
 
      public function getByRegion($region_id)
     {
