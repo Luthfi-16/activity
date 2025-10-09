@@ -9,6 +9,7 @@ use App\Models\Region;
 use App\Models\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Carbon\Carbon;
 
 class FieldworkController extends Controller
 {
@@ -46,7 +47,7 @@ class FieldworkController extends Controller
             'users.*'     => 'exists:users,id',
         ]);
 
-        // simpan fieldwork
+        // Simpan fieldwork baru
         $fieldwork = Fieldwork::create([
             'description' => $request->description,
             'note'        => $request->note,
@@ -57,11 +58,22 @@ class FieldworkController extends Controller
             'end_date'    => $request->end_date,
         ]);
 
-        // simpan ke pivot user_fieldworks
+        // Simpan relasi user
         $fieldwork->users()->sync($request->users);
-        Alert::success('Success', 'Data added successfully');
+
+        // 🔔 Kirim WA ke semua user yang dipilih
+        $users = User::with('phone')->whereIn('id', $request->users)->get();
+
+        foreach ($users as $user) {
+            foreach ($user->phone as $phone) {
+                $this->sendWhatsAppMessage($phone->number, $fieldwork);
+            }
+        }
+
+        Alert::success('Success', 'Data added successfully & WhatsApp sent!');
         return redirect()->route('fieldwork.index');
     }
+
 
     public function show(string $id)
     {
@@ -115,6 +127,15 @@ class FieldworkController extends Controller
 
         // update pivot user_fieldworks
         $fieldwork->users()->sync($request->users);
+
+        // Kirim ulang WA notifikasi ke user terupdate
+        $users = User::with('phone')->whereIn('id', $request->users)->get();
+        foreach ($users as $user) {
+            foreach ($user->phone as $phone) {
+                $this->sendWhatsAppMessage($phone->number, $fieldwork);
+            }
+        }
+
         Alert::success('Success', 'Data edited successfully');
         return redirect()->route('fieldwork.index');
     }
@@ -127,4 +148,37 @@ class FieldworkController extends Controller
         Alert::warning('Deleted', 'Data deleted successfully');
         return redirect()->route('fieldwork.index');
     }
+
+    private function sendWhatsAppMessage($phone, $fieldwork)
+    {
+        $token = env('FONNTE_TOKEN'); // token dari .env
+
+        $message = "Halo! Anda telah ditugaskan dalam Fieldwork: *{$fieldwork->category->name}*\n"
+                    . "Tanggal: " . Carbon::parse($fieldwork->start_date)->translatedFormat('d F Y')
+                    . " s/d " . Carbon::parse($fieldwork->end_date)->translatedFormat('d F Y') . "\n" 
+                    . "Lokasi: *{$fieldwork->branch->address}*" . ",\n"
+                    . "Harap konfirmasi kehadiran Anda.";
+
+
+
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://api.fonnte.com/send",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => [
+                'target' => $phone,
+                'message' => $message,
+            ],
+            CURLOPT_HTTPHEADER => [
+                "Authorization: $token"
+            ],
+        ]);
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        return $response;
+    }
+
 }

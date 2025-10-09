@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('styles')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
 <div class="container">
   <h4 class="fw-bold py-3 mb-4">User Phone / <span class="text-muted">Create</span></h4>
@@ -27,7 +30,7 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Select User</label>
-          <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
+          <select id="user" name="user_id" class="form-control select2 @error('user_id') is-invalid @enderror">
             <option value="">-- Select User --</option>
             @foreach($user as $data)
               <option value="{{ $data->id }}">{{ $data->name }}</option>
@@ -46,3 +49,12 @@
   </div>
 </div>
 @endsection
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript">	
+	$(document).ready(function() {
+		$('#user').select2();
+	});
+</script>
+@endpush
