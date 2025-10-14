@@ -1,98 +1,88 @@
-<?php
+    <?php
+    namespace App\Http\Controllers\Auth;
 
-namespace App\Http\Controllers\Auth;
+    use App\Http\Controllers\Controller;
+    use Illuminate\Foundation\Auth\AuthenticatesUsers;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-
-
-
-class LoginController extends Controller
-{
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    class LoginController extends Controller
     {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
-    }
+        use AuthenticatesUsers;
 
-        protected function authenticated(Request $request, $user)
-    {
-        // ✅ Generate ID max 11 char (sesuai migration)
-        $id         = Str::random(11);
-        $tokenValue = Str::random(32);
+        protected $redirectTo = '/home';
 
-        DB::table('tokens')->insert([
-            'id'         => $id,
-            'value'      => $tokenValue,
-            'is_revoked' => 0,
-            'user_id'    => $user->id,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        session(['login_token' => $tokenValue]);
-    }
-
-    public function logout(Request $request)
-    {
-        $user = auth()->user();
-
-        if ($user) {
-            $loginToken = session('login_token');
-
-            if ($loginToken) {
-                // 👉 Soft revoke
-                // DB::table('tokens')
-                //     ->where('user_id', $user->id)
-                //     ->where('value', $loginToken)
-                //     ->update([
-                //         'is_revoked' => 1,
-                //         'updated_at' => now(),
-                //     ]);
-
-                // 👉 Kalau mau hard delete, ganti aja ke:
-                DB::table('tokens')
-                    ->where('user_id', $user->id)
-                    ->where('value', $loginToken)
-                    ->delete();
-            }
-
-            // Hapus dari session
-            session()->forget('login_token');
+        public function __construct()
+        {
+            $this->middleware('guest')->except('logout');
+            $this->middleware('auth')->only('logout');
         }
 
+        /**
+         * Handle after successful login
+         */
+        protected function authenticated(Request $request, $user)
+    {
+        $token = $user->createToken('web_login')->plainTextToken;
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message'      => 'Login success',
+                'access_token' => $token,
+                'token_type'   => 'Bearer',
+                'user'         => $user,
+            ]);
+        }
+
+        // Simpan token di session agar bisa dihapus nanti
+        session(['sanctum_token' => $token]);
+
+        return redirect()->intended($this->redirectPath());
+    }
+
+
+        /**
+         * Logout & revoke token
+         */
+        public function logout(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            // Ambil token dari header atau session (kalau login via web)
+            $token = $request->bearerToken() ?? session('sanctum_token');
+
+            if ($token) {
+                // Pisahkan format "1|g7lk9WQZ..." jadi id + plain token
+                $parts = explode('|', $token, 2);
+                $plain = $parts[1] ?? null;
+
+                if ($plain) {
+                    // Hapus token yang sesuai
+                    $user->tokens()
+                        ->where('token', hash('sha256', $plain))
+                        ->delete();
+                } else {
+                    // Kalau format token tidak ada "|", hapus semua token user
+                    $user->tokens()->delete();
+                }
+            } else {
+                // Tidak ada token di session/header → hapus semua saja
+                $user->tokens()->delete();
+            }
+        }
+
+        // Bersihkan session
+        session()->forget('sanctum_token');
         $this->guard()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Logout success']);
+        }
+
         return redirect('/');
     }
-}
+
+    }

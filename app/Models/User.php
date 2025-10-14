@@ -1,16 +1,17 @@
 <?php
-
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+// 🟢 Tambahkan ini!
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable; // 🟢 Tambahkan HasApiTokens di sini
 
     /**
      * The attributes that are mass assignable.
@@ -42,24 +43,22 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
     }
 
     public function fieldworks()
-    {  
-    return $this->belongsToMany(Fieldwork::class, 'user_fieldworks', 'user_id', 'fieldwork_id');
+    {
+        return $this->belongsToMany(Fieldwork::class, 'user_fieldworks', 'user_id', 'fieldwork_id');
     }
 
-    // app/Models/User.php
-        public function profile()
-        {
-            return $this->hasOne(\App\Models\UserProfile::class);
-        }
+    public function profile()
+    {
+        return $this->hasOne(\App\Models\UserProfile::class);
+    }
 
-        public function phone()
-        {
-            return $this->hasMany(\App\Models\UserPhone::class);
-        }
-
+    public function phone()
+    {
+        return $this->hasMany(\App\Models\UserPhone::class);
+    }
 }
