@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ListUserController;
 use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\UserPhoneController;
 use App\Http\Controllers\Api\UserProfileController;
+use App\Http\Controllers\Api\FieldworkController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,9 +30,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('fieldwork_category', FieldworkCategoryController::class);
     Route::apiResource('userphone', UserPhoneController::class);
     Route::apiResource('listuser', ListUserController::class);
+    Route::apiResource('fieldwork', FieldworkController::class);
 
     Route::get('/profile/me', [UserProfileController::class, 'myProfile']);
     Route::post('/profile', [UserProfileController::class, 'store']);
     Route::put('/profile', [UserProfileController::class, 'update']);
-
+    
 });
